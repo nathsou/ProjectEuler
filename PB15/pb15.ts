@@ -1,8 +1,8 @@
-
 const latticePathCounts = (() => {
     const memo = new Map<string, number>();
 
     const counts = (w: number, h: number): number => {
+        if (w === 0 || h === 0) return 1;
         if (w === 1) return h + 1;
         if (h === 1) return w + 1;
 
