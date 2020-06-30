@@ -1,6 +1,6 @@
-const { memoize } = require('../Utils/memoize.js');
+import { memoize } from './memoize';
 
-function genSieve(count) {
+export function genSieve(count: number): number[] {
     const primes = [2];
 
     for (let i = 3; primes.length !== count; i += 2) {
@@ -10,7 +10,7 @@ function genSieve(count) {
     return primes;
 }
 
-function genSieveLessThan(max) {
+export function genSieveLessThan(max: number): number[] {
     const primes = [2];
 
     for (let i = 3; i <= max; i += 2) {
@@ -20,7 +20,7 @@ function genSieveLessThan(max) {
     return primes;
 }
 
-function isPrimeSieve(n, sieve) {
+export function isPrimeSieve(n: number, sieve: number[]): boolean {
     if (n === 2) return true;
     if (n % 2 === 0) return false;
 
@@ -33,7 +33,7 @@ function isPrimeSieve(n, sieve) {
     return true;
 }
 
-function isPrime(n) {
+export function isPrime(n: number): boolean {
     if (n === 2) return true;
     if (n % 2 === 0) return false;
 
@@ -44,10 +44,4 @@ function isPrime(n) {
     return true;
 }
 
-module.exports = {
-    isPrimeSieve,
-    isPrime,
-    isPrimeMemoized: memoize(isPrime),
-    genSieve,
-    genSieveLessThan
-}
+export const isPrimeMemoized = memoize(isPrime);

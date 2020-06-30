@@ -1,6 +1,6 @@
-const { factorize } = require('../Utils/prime_factors.js');
+import { factorize } from '../Utils/prime_factors';
 
-function smallestMultiple(m) {
+function smallestMultiple(m: number): number {
     let n = 1;
 
     for (let i = 2; i <= m; i++) {

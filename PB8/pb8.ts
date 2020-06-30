@@ -1,4 +1,4 @@
-const { prod: product } = require('../Utils/math.js');
+import { prod as product } from '../Utils/math';
 
 const nb =
     `73167176531330624919225119674426574742355349194934
@@ -23,7 +23,7 @@ const nb =
     71636269561882670428252483600823257530420752963450`
         .replace(/[\r\n\s]+/gm, '').split('').map(n => parseInt(n));
 
-function largestProd(len) {
+function largestProd(len: number): number {
     let prod = product(nb.slice(0, len));
     let max = prod;
 

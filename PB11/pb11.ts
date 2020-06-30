@@ -7,7 +7,7 @@ const grid =
             (n) => parseInt(n),
         );
 
-const readGrid = (x, y) => {
+const readGrid = (x: number, y: number): number => {
     if (x < width && y < height) {
         return grid[y * width + x];
     }
@@ -16,10 +16,10 @@ const readGrid = (x, y) => {
 };
 
 const gridProd = (
-    len,
-    [originX, originY],
-    [xInc, yInc],
-) => {
+    len: number,
+    [originX, originY]: [number, number],
+    [xInc, yInc]: [number, number],
+): number => {
     let x = originX, y = originY;
     let prod = 1;
 
@@ -32,14 +32,14 @@ const gridProd = (
     return prod;
 };
 
-const dirs = [
+const dirs: Array<[number, number]> = [
     [1, 0], // left-right
     [0, 1], // top-bottom
     [1, 1], // diagonally top-left to bottom-right
     [-1, 1], // diagonally top-right to bottom-left
 ];
 
-const computeLargestProd = (len) => {
+const computeLargestProd = (len: number): number => {
     let max = 0;
 
     for (const dir of dirs) {

@@ -1,9 +1,13 @@
 
-function isPythagoreanTriplet(a, b, c) {
+export function isPythagoreanTriplet(a: number, b: number, c: number): boolean {
     return a ** 2 + b ** 2 === c ** 2;
 }
 
-function* generateSums(sum) {
+export function* generateSums(sum: number): IterableIterator<{
+    a: number,
+    b: number,
+    c: number
+}> {
 
     for (let a = 0; a < sum; a++) {
         const complement = sum - a;
@@ -16,8 +20,8 @@ function* generateSums(sum) {
     return null;
 }
 
-const triplet = ((sum) => {
-    for ({ a, b, c } of generateSums(sum)) {
+export const triplet = ((sum: number) => {
+    for (const { a, b, c } of generateSums(sum)) {
         if (b > a && c > b && isPythagoreanTriplet(a, b, c)) return { a, b, c };
     }
 

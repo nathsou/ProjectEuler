@@ -1,5 +1,5 @@
 
-function isStringPalindrome(str) {
+function isStringPalindrome(str: string): boolean {
     let left = 0;
     let right = str.length - 1;
 
@@ -10,11 +10,11 @@ function isStringPalindrome(str) {
     return true;
 }
 
-function isPalindrome(n) {
+function isPalindrome(n: number): boolean {
     return isStringPalindrome(`${n}`);
 }
 
-function largestProductPalindrome(digits = 3) {
+function largestProductPalindrome(digits = 3): number {
     let max = 0;
 
     for (let i = 10 ** (digits - 1); i < 10 ** digits; i++) {

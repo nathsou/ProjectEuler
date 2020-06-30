@@ -1,6 +1,6 @@
 
-function memoize(f) {
-    const memo = new Map();
+export function memoize<T>(f: (n: number) => T): (n: number) => T {
+    const memo = new Map<number, T>();
 
     return n => {
         if (memo.has(n)) return memo.get(n);
@@ -9,5 +9,3 @@ function memoize(f) {
         return res;
     };
 }
-
-module.exports = { memoize };
