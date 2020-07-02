@@ -65,5 +65,3 @@ const spell = (n: number): string => {
 };
 
 console.log(sum(range(1, 1000).map(n => spell(n).replace(/[\s\-]/g, '').length)));
-
-// console.log(spell(342).replace(/[\s\-]/g, '').length);
