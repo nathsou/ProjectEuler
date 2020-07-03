@@ -1,6 +1,6 @@
 import { primeFactorsWithExponents } from './prime_factors';
 
-export const sum = (vals: number[]): number => vals.reduce((p, c) => p + c);
+export const sum = (vals: number[]): number => vals.reduce((p, c) => p + c, 0);
 
 export const prod = (vals: number[]): number => vals.reduce((p, c) => p * c, 1);
 
@@ -14,6 +14,7 @@ export function range(from: number, to: number, step = 1): number[] {
 }
 
 export const divisors = (n: number): number[] => {
+	if (n === 0) return [];
 	const divs = [1];
 
 	// we only need to check up to sqrt(n) inclusive
