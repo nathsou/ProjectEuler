@@ -14,7 +14,7 @@ const unitFractionRecurringCycleLength = (n: number): number => {
 
 const pb26 = (m = 1000) => {
     const [_, n] = max(map(range(0, m), n => unitFractionRecurringCycleLength(n)));
-    return n + 1;
+    return n;
 };
 
 console.log(pb26(1000));

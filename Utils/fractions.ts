@@ -10,7 +10,6 @@ export const fractionDigits = (
     cycleStartIndex?: number
 } => {
     const key = `${a}:${b}`;
-    // console.log(a, b, digits, acc);
     if (memo.has(key)) {
         return {
             digits: acc,

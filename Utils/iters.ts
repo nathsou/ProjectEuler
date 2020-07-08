@@ -1,13 +1,17 @@
 import { swap } from "./permutations";
 
-export function* indexed<T>(iter: IterableIterator<T>): IterableIterator<[T, number]> {
+
+export type Num = number | bigint;
+export type It<T> = IterableIterator<T>;
+
+export function* indexed<T>(iter: It<T>): IterableIterator<[T, number]> {
     let i = 0;
     for (const elem of iter) {
         yield [elem, i++];
     }
 }
 
-export function* iter<T>(array: T[]): IterableIterator<T> {
+export function* iter<T>(array: T[]): It<T> {
     for (const elem of array) {
         yield elem;
     }
@@ -22,7 +26,7 @@ export function* map<U, V>(
     }
 }
 
-export function* take<T>(iter: IterableIterator<T>, n: number): IterableIterator<T> {
+export function* take<T>(iter: It<T>, n: number): It<T> {
     for (let i = 0; i < n; i++) {
         const { value, done } = iter.next();
         yield value;
@@ -30,7 +34,7 @@ export function* take<T>(iter: IterableIterator<T>, n: number): IterableIterator
     }
 }
 
-export function nth<T>(iter: IterableIterator<T>, n: number): T | null {
+export function nth<T>(iter: It<T>, n: number): T | null {
     let current = null;
 
     for (let i = 0; i < n; i++) {
@@ -43,9 +47,9 @@ export function nth<T>(iter: IterableIterator<T>, n: number): T | null {
 }
 
 export function* skip<T>(
-    iterator: IterableIterator<T> | T[],
+    iterator: It<T> | T[],
     skipCount: number
-): IterableIterator<T> {
+): It<T> {
     const it = Array.isArray(iterator) ? iter(iterator) : iterator;
 
     for (let i = 0; i < skipCount; i++) {
@@ -75,7 +79,7 @@ export const reverseRange = <T>(elems: T[], start: number, end: number): void =>
 };
 
 export const max = <T>(
-    iter: IterableIterator<T>,
+    iter: It<T>,
     gtr = (a: T, b: T) => a > b
 ): [T, number] => {
     let max: T = iter.next().value;
@@ -84,7 +88,7 @@ export const max = <T>(
     for (const [val, i] of indexed(iter)) {
         if (gtr(val, max)) {
             max = val;
-            maxIdx = i;
+            maxIdx = i + 1;
         }
     }
 
@@ -92,8 +96,32 @@ export const max = <T>(
 };
 
 
-export function* range(from: number, to: number, step = 1): IterableIterator<number> {
-    for (let i = from; i <= to; i += step) {
-        yield i;
+export function* range<T extends Num>(
+    from: T,
+    to: T,
+    step = 1
+): It<T extends number ? number : bigint> {
+    const step_ = (typeof from === 'number' ? step : BigInt(step)) as T;
+
+    ///@ts-ignore
+    for (let i = from; i <= to; i = i + step_) {
+        yield i as any;
     }
 }
+
+export function* zip<A, B>(as: It<A>, bs: It<B>): It<[A, B]> {
+    while (true) {
+        const a = as.next();
+        const b = bs.next();
+
+        if (a.done || b.done) break;
+
+        yield [a.value, b.value];
+    }
+}
+
+// export function* zip<T>(...iters: It<T>[]): It<T> {
+//     for (const iter of iters) {
+//         const zipped: T[] = [];
+//     }
+// }
