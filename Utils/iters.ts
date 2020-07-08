@@ -13,6 +13,15 @@ export function* iter<T>(array: T[]): IterableIterator<T> {
     }
 }
 
+export function* map<U, V>(
+    iter: IterableIterator<U>,
+    fn: (val: U) => V
+): IterableIterator<V> {
+    for (const val of iter) {
+        yield fn(val);
+    }
+}
+
 export function* take<T>(iter: IterableIterator<T>, n: number): IterableIterator<T> {
     for (let i = 0; i < n; i++) {
         const { value, done } = iter.next();
@@ -61,8 +70,30 @@ export const findIndexRight = <T>(
 
 export const reverseRange = <T>(elems: T[], start: number, end: number): void => {
     while (start < end) {
-        swap(elems, start, end);
-        start++;
-        end--;
+        swap(elems, start++, end--);
     }
 };
+
+export const max = <T>(
+    iter: IterableIterator<T>,
+    gtr = (a: T, b: T) => a > b
+): [T, number] => {
+    let max: T = iter.next().value;
+    let maxIdx = 0;
+
+    for (const [val, i] of indexed(iter)) {
+        if (gtr(val, max)) {
+            max = val;
+            maxIdx = i;
+        }
+    }
+
+    return [max, maxIdx];
+};
+
+
+export function* range(from: number, to: number, step = 1): IterableIterator<number> {
+    for (let i = from; i <= to; i += step) {
+        yield i;
+    }
+}

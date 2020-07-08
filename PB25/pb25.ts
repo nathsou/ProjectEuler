@@ -1,4 +1,4 @@
-import { indexed } from "../Utils/arrays";
+import { indexed } from "../Utils/iters";
 import { fibs } from "../Utils/fibs";
 
 const pb25 = (digits: number) => {

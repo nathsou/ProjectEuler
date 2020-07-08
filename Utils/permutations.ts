@@ -1,4 +1,4 @@
-import { findIndexRight, reverseRange } from "./arrays";
+import { findIndexRight, reverseRange } from "./iters";
 
 export const swap = <T>(elems: T[], i: number, j: number): void => {
     [elems[i], elems[j]] = [elems[j], elems[i]];
@@ -31,10 +31,11 @@ export const permutations = <T>(elems: T[]): T[][] => {
     return perms;
 };
 
-export const nextPermutation = <T>(elems: T[]): T[] => {
-    // const i = findIndexRight(elems, (elems_i, i) => i > 0 && elems[i - 1] < elems_i);
+// returns false if `elems` is already the last permutation in
+// lexicographic order
+export const nextPermutation = <T>(elems: T[]): boolean => {
     const i = findIndexRight(elems, (_, i) => elems[i] < elems[i + 1]);
-    if (i === -1) return [...elems];
+    if (i === -1) return false;
 
     const elems_i = elems[i];
 
@@ -43,19 +44,16 @@ export const nextPermutation = <T>(elems: T[]): T[] => {
     swap(elems, i, j);
     reverseRange(elems, i + 1, elems.length - 1);
 
-    return elems;
+    return true;
 };
 
-export const lexicographicPermutations = <T>(elems: T[]): T[][] => {
-    const perms = [[...elems]];
+export function* lexicographicPermutations<T>(elems: T[]): IterableIterator<T[]> {
+    yield [...elems];
 
-    for (let i = 0; i < 5; i++) {
-        nextPermutation(elems);
-        perms.push([...elems]);
+    while (nextPermutation(elems)) {
+        yield [...elems];
     }
-
-    return perms;
-};
+}
 
 export const nthPermutation = <T>(n: number, elems: T[]): T[] => {
     const copy = [...elems];

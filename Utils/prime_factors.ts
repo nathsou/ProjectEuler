@@ -1,5 +1,5 @@
 import { memoize } from './memoize';
-import { skip } from './arrays';
+import { skip } from './iters';
 
 function _factorize(n: number): number[] {
     if (n === 2) return [2];
@@ -17,7 +17,7 @@ function _factorize(n: number): number[] {
 export const factorize = memoize(_factorize);
 
 export function primeFactorsWithExponents(n: number): Array<[number, number]> {
-    const factors = _factorize(n);
+    const factors = factorize(n);
     const withExponents = [];
 
     let prev = factors[0];
