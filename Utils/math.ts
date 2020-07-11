@@ -1,8 +1,15 @@
 import { primeFactorsWithExponents } from './prime_factors';
+import { It } from './iters';
 
-export const sum = (vals: number[]): number => vals.reduce((p, c) => p + c, 0);
+export const sum = (vals: number[] | It<number>): number => {
+	const elems = Array.isArray(vals) ? vals : [...vals];
+	return elems.reduce((p, c) => p + c, 0);
+};
 
-export const prod = (vals: number[]): number => vals.reduce((p, c) => p * c, 1);
+export const prod = (vals: number[] | It<number>): number => {
+	const elems = Array.isArray(vals) ? vals : [...vals];
+	return elems.reduce((p, c) => p * c, 1);
+};
 
 export function range(from: number, to: number, step = 1): number[] {
 	const vals = [];

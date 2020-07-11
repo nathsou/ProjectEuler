@@ -128,3 +128,27 @@ export function* combinations<U, V>(as: It<U>, bs: It<V>): It<[U, V]> {
         }
     }
 }
+
+export function* digits(n: number): It<number> {
+    for (const digit of `${n}`.split('')) {
+        yield parseInt(digit);
+    }
+}
+
+export function* filter<T>(as: It<T>, pred: (a: T) => boolean): It<T> {
+    for (const a of as) {
+        if (pred(a)) {
+            yield a;
+        }
+    }
+}
+
+export function find<T>(as: It<T>, pred: (a: T) => boolean): [T, number] | null {
+    for (const [a, index] of indexed(as)) {
+        if (pred(a)) {
+            return [a, index];
+        }
+    }
+
+    return null;
+}

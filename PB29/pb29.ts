@@ -11,8 +11,8 @@ const distinctPowers = ([aStart, aEnd]: Range, [bStart, bEnd]: Range): bigint[] 
     return [...powers];
 };
 
-const pb29 = (as: Range, bs: Range): number => {
+const pb29 = (as: Range = [2n, 100n], bs: Range = [2n, 100n]): number => {
     return distinctPowers(as, bs).length;
 };
 
-console.log(pb29([2n, 100n], [2n, 100n]));
+console.log(pb29());
