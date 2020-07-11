@@ -120,8 +120,11 @@ export function* zip<A, B>(as: It<A>, bs: It<B>): It<[A, B]> {
     }
 }
 
-// export function* zip<T>(...iters: It<T>[]): It<T> {
-//     for (const iter of iters) {
-//         const zipped: T[] = [];
-//     }
-// }
+export function* combinations<U, V>(as: It<U>, bs: It<V>): It<[U, V]> {
+    const bs_ = [...bs];
+    for (const a of as) {
+        for (const b of bs_) {
+            yield [a, b];
+        }
+    }
+}
