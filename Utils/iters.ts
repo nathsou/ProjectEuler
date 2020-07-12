@@ -135,6 +135,14 @@ export function* digits(n: number): It<number> {
     }
 }
 
+export function* join<T>(...iters: It<T>[]): It<T> {
+    for (const iter of iters) {
+        for (const val of iter) {
+            yield val;
+        }
+    }
+}
+
 export function* filter<T>(as: It<T>, pred: (a: T) => boolean): It<T> {
     for (const a of as) {
         if (pred(a)) {
