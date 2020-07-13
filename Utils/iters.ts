@@ -68,6 +68,12 @@ export function* skip<T>(
     }
 }
 
+export const len = <T>(it: It<T>): number => {
+    let count = 0;
+    for (const _ of it) count++;
+    return count;
+};
+
 export const findIndexRight = <T>(
     elems: T[],
     pred: (val: T, index: number) => boolean
@@ -147,7 +153,11 @@ export function* combinations<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
     }
 }
 
-export function* digits(n: number): It<number> {
+export function digits(n: number): number[] {
+    return `${n}`.split('').map(n => parseInt(n));
+}
+
+export function* digitsReversed(n: number): It<number> {
     while (n !== 0) {
         yield n % 10;
         n = Math.floor(n / 10);
@@ -201,3 +211,11 @@ export function find<T>(
 
     return { value: null, index: -1 };
 }
+
+export const rotate = <T>(elems: T[], dir: 'left' | 'right' = 'right'): T[] => {
+    if (dir === 'right') {
+        return elems.map((_, i) => elems[(i + 1) % elems.length]);
+    }
+
+    return elems.map((_, i) => elems[i === 0 ? elems.length - 1 : (i - 1)]);
+};

@@ -49,7 +49,7 @@ export function isPrimeSieveB(n: bigint, sieve: bigint[]): boolean {
 }
 
 export function isPrime(n: number): boolean {
-    if (n <= 2) return false;
+    if (n < 2) return false;
     if (n === 2) return true;
     if (n % 2 === 0) return false;
 
@@ -61,7 +61,7 @@ export function isPrime(n: number): boolean {
 }
 
 export function isPrimeB(n: bigint): boolean {
-    if (n <= 2n) return false;
+    if (n < 2n) return false;
     if (n === 2n) return true;
     if (n % 2n === 0n) return false;
 

@@ -1,4 +1,4 @@
-import { digits, range, filter } from "../Utils/iters";
+import { digitsReversed, filter, range } from "../Utils/iters";
 import { fact, sum } from "../Utils/math";
 
 // an upper bound is when 99...9 n times > n * 9!
@@ -9,7 +9,7 @@ import { fact, sum } from "../Utils/math";
 const isSumOfDigitsFactorials = (num: number) => {
     let rem = num;
 
-    for (const d of digits(num)) {
+    for (const d of digitsReversed(num)) {
         rem -= fact(d);
         if (rem < 0) return false;
     }

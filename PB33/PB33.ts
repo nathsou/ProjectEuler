@@ -1,9 +1,6 @@
 import { Frac, fracProd, fracsEq, simplifyFrac } from "../Utils/fractions";
 import { combinations, range, remove } from "../Utils/iters";
-
-const fromDigits = (digits: Iterable<number>): number => {
-    return parseInt([...digits].join(''));
-};
+import { fromDigits } from "../Utils/math";
 
 const isFalselyCancelling = (digitsA: number[], digitsB: number[], n: number): boolean => {
     const da = fromDigits(remove(digitsA, n, 1));

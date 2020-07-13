@@ -75,3 +75,7 @@ export const gcd = <T extends Num>(a: T, b: T): T => {
 };
 
 export const fact = memoize((n: number) => prod(range(1, n)));
+
+export const fromDigits = (digits: II<number>): number => {
+	return parseInt([...digits].join(''));
+};
