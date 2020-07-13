@@ -1,56 +1,63 @@
 import { swap } from "./permutations";
 
-
-export type Num = number | bigint;
 export type It<T> = IterableIterator<T>;
+export type Num = number | bigint;
 
-export function* indexed<T>(iter: It<T>): IterableIterator<[T, number]> {
+export function* indexed<T>(iter: Iterable<T>): It<[T, number]> {
     let i = 0;
     for (const elem of iter) {
         yield [elem, i++];
     }
 }
 
-export function* iter<T>(array: T[]): It<T> {
-    for (const elem of array) {
-        yield elem;
-    }
-}
+export type II<T> = It<T> | T[] | Set<T>;
+
+export const iter = <T>(it: II<T>): It<T> => {
+    return it[Symbol.iterator]();
+};
 
 export function* map<U, V>(
-    iter: IterableIterator<U>,
+    iter: Iterable<U>,
     fn: (val: U) => V
-): IterableIterator<V> {
+): It<V> {
     for (const val of iter) {
         yield fn(val);
     }
 }
 
-export function* take<T>(iter: It<T>, n: number): It<T> {
+export function* take<T>(iterable: II<T>, n: number): It<T> {
+    const it = iter(iterable);
     for (let i = 0; i < n; i++) {
-        const { value, done } = iter.next();
+        const { value, done } = it.next();
         yield value;
         if (done) break;
     }
 }
 
-export function nth<T>(iter: It<T>, n: number): T | null {
-    let current = null;
+export function nth<T>(iterable: II<T>, n: number): T | null {
+    const it = iter(iterable);
+    let current = null, i = 0;
 
-    for (let i = 0; i < n; i++) {
-        const { value, done } = iter.next();
-        if (done) break;
+    for (; i < n; i++) {
+        const { value, done } = it.next();
         current = value;
+        if (done) break;
     }
 
-    return current;
+    return i === n ? current : null;
+}
+
+export function* repeat<T>(n: number, val: T): It<T> {
+    for (let i = 0; i < n; i++) {
+        yield val;
+    }
 }
 
 export function* skip<T>(
-    iterator: It<T> | T[],
+    iterable: II<T>,
     skipCount: number
 ): It<T> {
-    const it = Array.isArray(iterator) ? iter(iterator) : iterator;
+    const it = iter(iterable);
 
     for (let i = 0; i < skipCount; i++) {
         it.next();
@@ -79,29 +86,35 @@ export const reverseRange = <T>(elems: T[], start: number, end: number): void =>
 };
 
 export const max = <T>(
-    iter: It<T>,
+    iterable: II<T>,
     gtr = (a: T, b: T) => a > b
-): [T, number] => {
-    let max: T = iter.next().value;
+): { value: T, index: number } => {
+    const it = iter(iterable);
+    let max: T = it.next().value;
     let maxIdx = 0;
 
-    for (const [val, i] of indexed(iter)) {
+    for (const [val, i] of indexed(it)) {
         if (gtr(val, max)) {
             max = val;
             maxIdx = i + 1;
         }
     }
 
-    return [max, maxIdx];
+    return { value: max, index: maxIdx };
 };
 
 
 export function* range<T extends Num>(
     from: T,
-    to: T,
+    to?: T,
     step = 1
 ): It<T extends number ? number : bigint> {
     const step_ = (typeof from === 'number' ? step : BigInt(step)) as T;
+
+    if (to === undefined) {
+        to = from;
+        from = (typeof from === 'number' ? 0 : 0n) as T;
+    }
 
     ///@ts-ignore
     for (let i = from; i <= to; i = i + step_) {
@@ -109,10 +122,15 @@ export function* range<T extends Num>(
     }
 }
 
-export function* zip<A, B>(as: It<A>, bs: It<B>): It<[A, B]> {
+export function* zip<A, B>(
+    as: II<A>,
+    bs: II<B>
+): It<[A, B]> {
+    const as_ = iter(as);
+    const bs_ = iter(bs);
     while (true) {
-        const a = as.next();
-        const b = bs.next();
+        const a = as_.next();
+        const b = bs_.next();
 
         if (a.done || b.done) break;
 
@@ -120,7 +138,7 @@ export function* zip<A, B>(as: It<A>, bs: It<B>): It<[A, B]> {
     }
 }
 
-export function* combinations<U, V>(as: It<U>, bs: It<V>): It<[U, V]> {
+export function* combinations<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
     const bs_ = [...bs];
     for (const a of as) {
         for (const b of bs_) {
@@ -130,12 +148,13 @@ export function* combinations<U, V>(as: It<U>, bs: It<V>): It<[U, V]> {
 }
 
 export function* digits(n: number): It<number> {
-    for (const digit of `${n}`.split('')) {
-        yield parseInt(digit);
+    while (n !== 0) {
+        yield n % 10;
+        n = Math.floor(n / 10);
     }
 }
 
-export function* join<T>(...iters: It<T>[]): It<T> {
+export function* join<T>(...iters: II<T>[]): It<T> {
     for (const iter of iters) {
         for (const val of iter) {
             yield val;
@@ -143,7 +162,10 @@ export function* join<T>(...iters: It<T>[]): It<T> {
     }
 }
 
-export function* filter<T>(as: It<T>, pred: (a: T) => boolean): It<T> {
+export function* filter<T>(
+    as: II<T>,
+    pred: (a: T) => boolean
+): It<T> {
     for (const a of as) {
         if (pred(a)) {
             yield a;
@@ -151,12 +173,31 @@ export function* filter<T>(as: It<T>, pred: (a: T) => boolean): It<T> {
     }
 }
 
-export function find<T>(as: It<T>, pred: (a: T) => boolean): [T, number] | null {
+export function* remove<T>(
+    vals: II<T>,
+    valToRemove: T,
+    removeCount = Infinity
+): It<T> {
+    let removed = 0;
+
+    for (const val of vals) {
+        if (removed < removeCount && val === valToRemove) {
+            removed++;
+        } else {
+            yield val;
+        }
+    }
+}
+
+export function find<T>(
+    as: II<T>,
+    pred: (a: T) => boolean
+): { value: T | null, index: number } {
     for (const [a, index] of indexed(as)) {
         if (pred(a)) {
-            return [a, index];
+            return { value: a, index };
         }
     }
 
-    return null;
+    return { value: null, index: -1 };
 }

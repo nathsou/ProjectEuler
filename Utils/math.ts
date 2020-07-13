@@ -1,14 +1,16 @@
 import { primeFactorsWithExponents } from './prime_factors';
-import { It } from './iters';
+import { Num } from './iters';
 
-export const sum = (vals: number[] | It<number>): number => {
-	const elems = Array.isArray(vals) ? vals : [...vals];
-	return elems.reduce((p, c) => p + c, 0);
+export const sum = (vals: Iterable<number>): number => {
+	let s = 0;
+	for (const val of vals) s += val;
+	return s;
 };
 
-export const prod = (vals: number[] | It<number>): number => {
-	const elems = Array.isArray(vals) ? vals : [...vals];
-	return elems.reduce((p, c) => p * c, 1);
+export const prod = (vals: Iterable<number>): number => {
+	let p = 1;
+	for (const val of vals) p *= val;
+	return p;
 };
 
 export function range(from: number, to: number, step = 1): number[] {
@@ -50,4 +52,23 @@ export const divisors = (n: number): number[] => {
 export const divisorsCount = (n: number): number => {
 	return primeFactorsWithExponents(n)
 		.reduce((count, [_, power]) => (power + 1) * count, 1);
+};
+
+export const intLog = (n: number, base: number): number => {
+	let i = 0;
+
+	for (; n !== 0; i++) {
+		n = Math.floor(n / base);
+	}
+
+	return i - 1;
+};
+
+export const eq = (a: Num, b: number): boolean => {
+	return typeof a === 'number' ? a === b : a === BigInt(b);
+};
+
+export const gcd = <T extends Num>(a: T, b: T): T => {
+	if (eq(b, 0)) return a;
+	return gcd(b, (a % b) as T);
 };
