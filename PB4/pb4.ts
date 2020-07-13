@@ -1,18 +1,4 @@
-
-function isStringPalindrome(str: string): boolean {
-    let left = 0;
-    let right = str.length - 1;
-
-    while (left < right) {
-        if (str[left++] !== str[right--]) return false;
-    }
-
-    return true;
-}
-
-function isPalindrome(n: number): boolean {
-    return isStringPalindrome(`${n}`);
-}
+import { isPalindrome } from "../Utils/math";
 
 function largestProductPalindrome(digits = 3): number {
     let max = 0;

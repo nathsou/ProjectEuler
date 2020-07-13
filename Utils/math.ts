@@ -1,6 +1,7 @@
 import { primeFactorsWithExponents } from './prime_factors';
 import { Num, II } from './iters';
 import { memoize } from './memoize';
+import { isPalindrome as isStringPalindrome } from './strings';
 
 export const sum = (vals: II<number>): number => {
 	let s = 0;
@@ -79,3 +80,7 @@ export const fact = memoize((n: number) => prod(range(1, n)));
 export const fromDigits = (digits: II<number>): number => {
 	return parseInt([...digits].join(''));
 };
+
+export function isPalindrome(n: number): boolean {
+	return isStringPalindrome(`${n}`);
+}
