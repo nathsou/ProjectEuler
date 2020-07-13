@@ -1,13 +1,14 @@
 import { primeFactorsWithExponents } from './prime_factors';
-import { Num } from './iters';
+import { Num, II } from './iters';
+import { memoize } from './memoize';
 
-export const sum = (vals: Iterable<number>): number => {
+export const sum = (vals: II<number>): number => {
 	let s = 0;
 	for (const val of vals) s += val;
 	return s;
 };
 
-export const prod = (vals: Iterable<number>): number => {
+export const prod = (vals: II<number>): number => {
 	let p = 1;
 	for (const val of vals) p *= val;
 	return p;
@@ -72,3 +73,5 @@ export const gcd = <T extends Num>(a: T, b: T): T => {
 	if (eq(b, 0)) return a;
 	return gcd(b, (a % b) as T);
 };
+
+export const fact = memoize((n: number) => prod(range(1, n)));
