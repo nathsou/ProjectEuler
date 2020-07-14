@@ -212,6 +212,19 @@ export function find<T>(
     return { value: null, index: -1 };
 }
 
+export function all<T>(
+    as: II<T>,
+    pred: (a: T) => boolean
+): boolean {
+    for (const a of as) {
+        if (!pred(a)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export const rotate = <T>(elems: T[], dir: 'left' | 'right' = 'right'): T[] => {
     if (dir === 'right') {
         return elems.map((_, i) => elems[(i + 1) % elems.length]);
@@ -219,3 +232,13 @@ export const rotate = <T>(elems: T[], dir: 'left' | 'right' = 'right'): T[] => {
 
     return elems.map((_, i) => elems[i === 0 ? elems.length - 1 : (i - 1)]);
 };
+
+export function* selfCompose<T>(f: (arg: T) => T, arg: T): It<T> {
+    let r = arg;
+    yield arg;
+
+    do {
+        r = f(r);
+        yield r;
+    } while (true);
+}
