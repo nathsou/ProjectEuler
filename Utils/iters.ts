@@ -200,7 +200,7 @@ export function* digitsReversed(n: number): It<number> {
     }
 }
 
-export function* join<T>(...iters: II<T>[]): It<T> {
+export function* join<T>(iters: II<II<T>>): It<T> {
     for (const iter of iters) {
         yield* iter;
     }
