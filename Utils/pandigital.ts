@@ -14,11 +14,11 @@ export const isPandigital = (digits: number[]) => {
 };
 
 export const pandigitals = (len = 9): It<number[]> => {
-    if (len > 9 || len < 1) return
-    return lexicographicPermutations([...range(len, 1)])
+    if (len > 9 || len < 1) return;
+    return lexicographicPermutations([...range(len, 1)]);
 };
 
 export const reversePandigitals = (len = 9): It<number[]> => {
-    if (len > 9 || len < 1) return
-    return reverseLexicographicPermutations([...range(len, 1)])
+    if (len > 9 || len < 1) return;
+    return reverseLexicographicPermutations([...range(len, 1)]);
 };

@@ -1,12 +1,8 @@
-import { readFileSync } from 'fs';
 import { sum } from '../Utils/math';
+import { consume, words } from '../Utils/streams';
 
-const pb22 = () => {
-    const names = readFileSync('names.txt')
-        .toString()
-        .split(',')
-        .map(name => name.substr(1, name.length - 2))
-        .sort();
+const pb22 = async () => {
+    const names = [...await consume(words('names.txt'))].sort();
 
     const stringScore = (str: string): number => {
         let score = 0;
@@ -22,5 +18,7 @@ const pb22 = () => {
     return sum(scores);
 };
 
-console.log(pb22());
+(async () => {
+    console.log(await pb22());
+})();
 

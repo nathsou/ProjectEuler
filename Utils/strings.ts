@@ -1,5 +1,6 @@
+import { It, map } from "./iters";
 
-export function isPalindrome(str: string): boolean {
+export const isPalindrome = (str: string): boolean => {
     let left = 0;
     let right = str.length - 1;
 
@@ -8,4 +9,8 @@ export function isPalindrome(str: string): boolean {
     }
 
     return true;
-}
+};
+
+export const alphabetIndices = (str: string): number[] => {
+    return [...map(str, char => char.charCodeAt(0) - 64)];
+};

@@ -1,6 +1,5 @@
+import { cycle, filter, It, repeat } from './iters';
 import { memoize } from './memoize';
-import { repeat, indexed, cycle, It, take, filter, takeWhile } from './iters';
-import { sum } from './math';
 
 export function genSieve(count: number): number[] {
     const primes = [2];

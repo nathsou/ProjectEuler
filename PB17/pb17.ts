@@ -1,4 +1,5 @@
-import { range, sum } from "../Utils/math";
+import { sum } from "../Utils/math";
+import { range, map } from "../Utils/iters";
 
 const digits = [
     'zero',
@@ -64,4 +65,8 @@ const spell = (n: number): string => {
     }
 };
 
-console.log(sum(range(1, 1000).map(n => spell(n).replace(/[\s\-]/g, '').length)));
+const pb17 = (m = 1000): number => {
+    return sum(map(range(1, m), n => spell(n).replace(/[\s\-]/g, '').length));
+};
+
+console.log(pb17());

@@ -1,6 +1,6 @@
-import { primeFactorsWithExponents } from './prime_factors';
-import { Num, II, foldLeft } from './iters';
+import { foldLeft, foldLeftIter, II, It, Num, range } from './iters';
 import { memoize } from './memoize';
+import { primeFactorsWithExponents } from './prime_factors';
 import { isPalindrome as isStringPalindrome } from './strings';
 
 export const sum = (vals: II<number>): number => {
@@ -14,16 +14,6 @@ export const prod = (vals: II<number>): number => {
 	for (const val of vals) p *= val;
 	return p;
 };
-
-export function range(from: number, to: number, step = 1): number[] {
-	const vals = [];
-
-	for (let i = from; i <= to; i += step) {
-		vals.push(i);
-	}
-
-	return vals;
-}
 
 export const divisors = (n: number): number[] => {
 	if (n === 0) return [];
@@ -100,4 +90,8 @@ export const solveQuadraticEq = (a: number, b: number, c: number): [number, numb
 	const s = Math.sqrt(delta);
 
 	return [(-b - s) / (2 * a), (-b + s) / (2 * a)];
+};
+
+export const triangles = (): It<number> => {
+	return foldLeftIter(range(2, Infinity), (tri, n) => tri + n, 1);
 };

@@ -1,6 +1,7 @@
 import { swap } from "./permutations";
 
 export type It<T> = IterableIterator<T>;
+export type II<T> = It<T> | T[] | Set<T>;
 export type Num = number | bigint;
 
 export function* indexed<T>(iter: Iterable<T>): It<[T, number]> {
@@ -9,8 +10,6 @@ export function* indexed<T>(iter: Iterable<T>): It<[T, number]> {
         yield [elem, i++];
     }
 }
-
-export type II<T> = It<T> | T[] | Set<T>;
 
 export const iter = <T>(it: II<T>): It<T> => {
     return it[Symbol.iterator]();
@@ -332,7 +331,6 @@ export function* chunks<T>(it: II<T>, len: number): It<T[]> {
 }
 
 export const foldLeft = <T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T): T => {
-
     let acc = base !== undefined ? base : nth(it, 0);
 
     for (const val of it) {
@@ -341,6 +339,16 @@ export const foldLeft = <T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T)
 
     return acc;
 };
+
+export function* foldLeftIter<T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T): It<T> {
+    let acc = base !== undefined ? base : nth(it, 0);
+    yield acc;
+
+    for (const val of it) {
+        acc = fn(acc, val);
+        yield acc;
+    }
+}
 
 export const has = <T>(it: II<T>, ...elems: T[]): boolean => {
     const elemsSet = new Set(elems);
