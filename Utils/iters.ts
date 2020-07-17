@@ -44,6 +44,19 @@ export function* takeWhile<T>(iterable: II<T>, pred: (a: T) => boolean): It<T> {
     }
 }
 
+export function* takeAt<T>(it: II<T>, indices: number[]): It<T> {
+    const idxs = [...new Set(indices)].sort((a, b) => b - a);
+    let next = idxs.pop();
+
+    for (const [val, i] of indexed(it)) {
+        if (i === next) {
+            yield val;
+            if (idxs.length === 0) break;
+            next = idxs.pop();
+        }
+    }
+}
+
 export function nth<T>(iterable: II<T>, n: number): T | null {
     const it = iter(iterable);
     let current = null, i = 0;

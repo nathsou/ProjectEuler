@@ -57,4 +57,4 @@ const pb39 = (upperBound = 1000) => {
     return max(map(range(upperBound), n => countTripletsSummingTo(n, primitiveTripletSums))).index;
 };
 
-console.log(pb39(1000));
+console.log(pb39());
