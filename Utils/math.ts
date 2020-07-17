@@ -1,5 +1,5 @@
 import { primeFactorsWithExponents } from './prime_factors';
-import { Num, II } from './iters';
+import { Num, II, foldLeft } from './iters';
 import { memoize } from './memoize';
 import { isPalindrome as isStringPalindrome } from './strings';
 
@@ -17,6 +17,7 @@ export const prod = (vals: II<number>): number => {
 
 export function range(from: number, to: number, step = 1): number[] {
 	const vals = [];
+
 	for (let i = from; i <= to; i += step) {
 		vals.push(i);
 	}
@@ -70,9 +71,13 @@ export const eq = (a: Num, b: number): boolean => {
 	return typeof a === 'number' ? a === b : a === BigInt(b);
 };
 
-export const gcd = <T extends Num>(a: T, b: T): T => {
+const gcd_ = <T extends Num>(a: T, b: T): T => {
 	if (eq(b, 0)) return a;
-	return gcd(b, (a % b) as T);
+	return gcd_(b, (a % b) as T);
+};
+
+export const gcd = <T extends Num>(ns: II<T>): T => {
+	return foldLeft(ns, (g, n) => gcd_(g, n));
 };
 
 export const fact = memoize((n: number) => prod(range(1, n)));

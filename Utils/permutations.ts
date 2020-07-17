@@ -47,10 +47,30 @@ export const nextPermutation = <T>(elems: T[]): boolean => {
     return true;
 };
 
+export const prevPermutation = <T>(elems: T[]): boolean => {
+    const i =  findIndexRight(elems, (_, i) => elems[i - 1] > elems[i]);
+    if (i === -1) return false;
+    
+    const j = findIndexRight(elems, (elems_j, j) => j >= i && elems_j < elems[i - 1]);
+
+    swap(elems, i - 1, j);
+    reverseRange(elems, i, elems.length - 1);
+
+    return true;
+};
+
 export function* lexicographicPermutations<T>(elems: T[]): IterableIterator<T[]> {
     yield [...elems];
 
     while (nextPermutation(elems)) {
+        yield [...elems];
+    }
+}
+
+export function* reverseLexicographicPermutations<T>(elems: T[]): IterableIterator<T[]> {
+    yield [...elems];
+
+    while (prevPermutation(elems)) {
         yield [...elems];
     }
 }

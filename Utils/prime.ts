@@ -1,4 +1,6 @@
 import { memoize } from './memoize';
+import { repeat, indexed, cycle, It, take, filter, takeWhile } from './iters';
+import { sum } from './math';
 
 export function genSieve(count: number): number[] {
     const primes = [2];
@@ -21,7 +23,7 @@ export function genSieveLessThan(max: number): number[] {
 }
 
 export function isPrimeSieve(n: number, sieve: number[]): boolean {
-    if (n <= 2) return false;
+    if (n < 2) return false;
     if (n === 2) return true;
     if (n % 2 === 0) return false;
 
@@ -35,7 +37,7 @@ export function isPrimeSieve(n: number, sieve: number[]): boolean {
 }
 
 export function isPrimeSieveB(n: bigint, sieve: bigint[]): boolean {
-    if (n <= 2n) return false;
+    if (n < 2n) return false;
     if (n === 2n) return true;
     if (n % 2n === 0n) return false;
 
@@ -73,13 +75,55 @@ export function isPrimeB(n: bigint): boolean {
 }
 
 export function isPrimeSieved(): (n: number) => boolean {
-    const sieve = [];
+    const sieve = [2];
     return (n: number) => isPrimeSieve(n, sieve);
 }
 
 export function isPrimeSievedB(): (n: bigint) => boolean {
-    const sieve = [];
+    const sieve = [2n];
     return (n: bigint) => isPrimeSieveB(n, sieve);
 }
 
 export const isPrimeMemoized = memoize(isPrime);
+
+// see http://mathproofs.blogspot.com/
+export const buildOffsetList = (primes: number[]): number[] => {
+    if (primes.length === 0) return [];
+    if (primes.length === 1) return [primes[0]];
+
+    const p = primes.pop();
+
+    const offsets = [...repeat(buildOffsetList(primes), p)];
+
+    let n = 1;
+    for (let i = 0; i < offsets.length; i++) {
+        if (offsets[i] !== null) {
+             n += offsets[i];
+        }
+
+        if (n % p === 0) {
+            if (i + 1 < offsets.length) {
+                offsets[i] += offsets[i + 1];
+                n += offsets[i + 1];
+                offsets[i + 1] = null;
+            }
+        }
+    }
+    
+    return offsets.filter(offset => offset !== null);
+};
+
+export function* possiblePrimes(firstPrimes = [2, 3, 5, 7, 11]): It<number> {
+    const offsets = buildOffsetList([...firstPrimes]);
+
+    yield* firstPrimes;
+    
+    let n = 1;
+
+    for (const offset of cycle(offsets)) {
+        n += offset;
+        yield n;
+    }
+}
+
+export const primes = () => filter(possiblePrimes(), isPrimeSieved());

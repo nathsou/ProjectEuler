@@ -34,6 +34,16 @@ export function* take<T>(iterable: II<T>, n: number): It<T> {
     }
 }
 
+export function* takeWhile<T>(iterable: II<T>, pred: (a: T) => boolean): It<T> {
+    const it = iter(iterable);
+    for (;;) {
+        const { value, done } = it.next();
+        if (!pred(value)) break;
+        yield value;
+        if (done) break;
+    }
+}
+
 export function nth<T>(iterable: II<T>, n: number): T | null {
     const it = iter(iterable);
     let current = null, i = 0;
@@ -47,9 +57,17 @@ export function nth<T>(iterable: II<T>, n: number): T | null {
     return i === n ? current : null;
 }
 
-export function* repeat<T>(n: number, val: T): It<T> {
+export function* repeat<T>(it: II<T>, n: number): It<T> {
+    const vals = [...it];
     for (let i = 0; i < n; i++) {
-        yield val;
+        yield* vals;
+    }
+}
+
+export function* cycle<T>(it: II<T>): It<T> {
+    const vals = [...it];
+    while (true) {
+        yield* vals;
     }
 }
 
@@ -63,9 +81,7 @@ export function* skip<T>(
         it.next();
     }
 
-    for (const val of it) {
-        yield val;
-    }
+    yield* it;
 }
 
 export const len = <T>(it: It<T>): number => {
@@ -122,9 +138,16 @@ export function* range<T extends Num>(
         from = (typeof from === 'number' ? 0 : 0n) as T;
     }
 
-    ///@ts-ignore
-    for (let i = from; i <= to; i = i + step_) {
-        yield i as any;
+    if (to > from) {
+        ///@ts-ignore
+        for (let i = from; i <= to; i = i + step_) {
+            yield i as any;
+        } 
+    } else {
+        ///@ts-ignore
+        for (let i = from; i >= to; i = i - step_) {
+            yield i as any;
+        }
     }
 }
 
@@ -166,9 +189,7 @@ export function* digitsReversed(n: number): It<number> {
 
 export function* join<T>(...iters: II<T>[]): It<T> {
     for (const iter of iters) {
-        for (const val of iter) {
-            yield val;
-        }
+        yield* iter;
     }
 }
 
@@ -225,6 +246,19 @@ export function all<T>(
     return true;
 }
 
+export function any<T>(
+    as: II<T>,
+    pred: (a: T) => boolean
+): boolean {
+    for (const a of as) {
+        if (pred(a)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export const rotate = <T>(elems: T[], dir: 'left' | 'right' = 'right'): T[] => {
     if (dir === 'right') {
         return elems.map((_, i) => elems[(i + 1) % elems.length]);
@@ -242,3 +276,51 @@ export function* selfCompose<T>(f: (arg: T) => T, arg: T): It<T> {
         yield r;
     } while (true);
 }
+
+export function* slices<T>(elems: II<T>): It<T[]> {
+    const els: T[] = [];
+
+    for (const elem of elems) {
+        yield [...els, elem];
+        els.push(elem);
+    }
+}
+
+export function* chunks<T>(it: II<T>, len: number): It<T[]> {
+    if (len <= 0) return;
+
+    let chunk: T[] = [];
+
+    for (const val of it) {
+        chunk.push(val);
+        if (chunk.length % len === 0) {
+            yield chunk;
+            chunk = [];
+        }
+    }
+
+    if (chunk.length > 0) {
+        yield chunk;
+    }
+}
+
+export const foldLeft = <T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T): T => {
+
+    let acc = base !== undefined ? base : nth(it, 0);
+
+    for (const val of it) {
+        acc = fn(acc, val);
+    }
+
+    return acc;
+};
+
+export const has = <T>(it: II<T>, ...elems: T[]): boolean => {
+    const elemsSet = new Set(elems);
+
+    for (const elem of it) {
+        elemsSet.delete(elem);
+    }
+
+    return elemsSet.size === 0;
+};
