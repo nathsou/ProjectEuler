@@ -1,5 +1,4 @@
-import { divisorsCount, divisors } from '../Utils/math';
-import { primeFactorsWithExponents } from '../Utils/prime_factors';
+import { divisorsCount } from '../Utils/math';
 
 export function* triangularNumbers(max: number): IterableIterator<number> {
     let next = 0;
@@ -19,5 +18,3 @@ const pb12 = (count: number) => {
 };
 
 console.log(pb12(500));
-
-// console.log(divisorsCount(28));

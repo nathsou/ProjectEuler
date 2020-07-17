@@ -233,6 +233,20 @@ export function find<T>(
     return { value: null, index: -1 };
 }
 
+export function count<T>(
+    as: II<T>,
+    pred: (a: T) => boolean
+): number {
+    let count = 0;
+    for (const a of as) {
+        if (pred(a)) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 export function all<T>(
     as: II<T>,
     pred: (a: T) => boolean

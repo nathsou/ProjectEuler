@@ -89,3 +89,15 @@ export const fromDigits = (digits: II<number>): number => {
 export function isPalindrome(n: number): boolean {
 	return isStringPalindrome(`${n}`);
 }
+
+export const solveQuadraticEq = (a: number, b: number, c: number): [number, number] | [number] | [] => {
+	const delta = b ** 2 - 4 * a * c;
+	
+	if (delta < 0) return [];
+
+	if (delta === 0) return [-b / (2 * a)];
+
+	const s = Math.sqrt(delta);
+
+	return [(-b - s) / (2 * a), (-b + s) / (2 * a)];
+};
