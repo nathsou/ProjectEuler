@@ -1,6 +1,6 @@
 import { digits, filter, It, range, rotate, join, len } from "../Utils/iters";
 import { fromDigits } from "../Utils/math";
-import { isPrimeMemoized } from "../Utils/prime";
+import { isPrimeMemoized } from "../Utils/primes";
 
 const isCircularPrime = (n: number): boolean => {
     if (!isPrimeMemoized(n)) return false;

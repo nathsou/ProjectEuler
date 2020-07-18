@@ -95,3 +95,12 @@ export const solveQuadraticEq = (a: number, b: number, c: number): [number, numb
 export const triangles = (): It<number> => {
 	return foldLeftIter(range(2, Infinity), (tri, n) => tri + n, 1);
 };
+
+// p(n) = (3n^2 - n) / 2
+/// p(n + 1) - p(n) = (3(n + 1)^2 - n - 1) / 2 - (3n^2 - n) / 2
+// = (3n^2 + 5n + 2) / 2 - (3n^2 - n) / 2
+// 2(p(n + 1) - p(n)) = 6n + 2
+// p(n + 1) = p(n) + 3n + 1
+export const pentagons = (): It<number> => {
+    return foldLeftIter(range(1, Infinity), (pent, n) => pent + 3 * n + 1, 1);
+};

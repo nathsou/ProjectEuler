@@ -1,5 +1,5 @@
 import { range } from "../Utils/iters";
-import { isPrimeSievedB } from "../Utils/prime";
+import { isPrimeSievedB } from "../Utils/primes";
 
 const isPrime = isPrimeSievedB();
 

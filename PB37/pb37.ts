@@ -1,6 +1,6 @@
 import { all, combinations, filter, map, range } from "../Utils/iters";
 import { fromDigits, sum } from "../Utils/math";
-import { isPrimeMemoized as isPrime } from "../Utils/prime";
+import { isPrimeMemoized as isPrime } from "../Utils/primes";
 
 const isLeftTruncatablePrime = (digits: number[]): boolean => {
     const rtl = map(range(digits.length - 1), n => digits.slice(n));
