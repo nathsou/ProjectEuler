@@ -15,9 +15,11 @@ export function* history<T>(it_: II<T>, historyLen = 1): It<T[]> {
     const it = iter(it_);
     const prev = [...take(it, historyLen)];
 
+    yield [...prev];
+
     for (const val of it) {
-        yield [...prev, val];
         prev.shift();
+        yield [...prev, val];
         prev.push(val);
     }
 }
