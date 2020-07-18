@@ -1,4 +1,4 @@
-import { cycle, filter, It, repeat } from './iters';
+import { cycle, filter, It, repeat, range, skip, history } from './iters';
 import { memoize } from './memoize';
 
 export function genSieve(count: number): number[] {
@@ -126,3 +126,11 @@ export function* possiblePrimes(firstPrimes = [2, 3, 5, 7, 11]): It<number> {
 }
 
 export const primes = () => filter(possiblePrimes(), isPrimeSieved());
+
+export function* composites(): It<number> {
+    yield 1;
+    
+    for (const [prevPrime, p] of history(skip(primes(), 2))) {
+        yield* range(prevPrime + 1, p - 1);
+    }
+}

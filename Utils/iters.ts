@@ -11,6 +11,17 @@ export function* indexed<T>(iter: Iterable<T>): It<[T, number]> {
     }
 }
 
+export function* history<T>(it_: II<T>, historyLen = 1): It<T[]> {
+    const it = iter(it_);
+    const prev = [...take(it, historyLen)];
+
+    for (const val of it) {
+        yield [...prev, val];
+        prev.shift();
+        prev.push(val);
+    }
+}
+
 export const iter = <T>(it: II<T>): It<T> => {
     return it[Symbol.iterator]();
 };
