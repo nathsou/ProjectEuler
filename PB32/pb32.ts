@@ -7,7 +7,7 @@ const is1Through9PandigitalProduct = (a: number, b: number): boolean => {
     if (digitsCount(a) + digitsCount(b) + digitsCount(a * b) !== 9) return false;
     const digitCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    for (const digit of join(digits(a), digits(b), digits(a * b))) {
+    for (const digit of join([digits(a), digits(b), digits(a * b)])) {
         if (digit === 0 || ++digitCounts[digit - 1] > 1) return false;
     }
 

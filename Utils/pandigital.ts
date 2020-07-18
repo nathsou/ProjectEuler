@@ -13,12 +13,12 @@ export const isPandigital = (digits: number[]) => {
     return counts.every(c => c === 1);
 };
 
-export const pandigitals = (len = 9): It<number[]> => {
-    if (len > 9 || len < 1) return;
-    return lexicographicPermutations([...range(len, 1)]);
+export const pandigitals = (from: number, to: number): It<number[]> => {
+    if (to > 9 || from < 0 || from > to) return;
+    return lexicographicPermutations([...range(from, to)]);
 };
 
-export const reversePandigitals = (len = 9): It<number[]> => {
-    if (len > 9 || len < 1) return;
-    return reverseLexicographicPermutations([...range(len, 1)]);
+export const reversePandigitals = (from: number, to: number): It<number[]> => {
+    if (to > 9 || from < 0 || from > to) return;
+    return reverseLexicographicPermutations([...range(to, from)]);
 };

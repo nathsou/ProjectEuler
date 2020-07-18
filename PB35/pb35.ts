@@ -18,7 +18,7 @@ const isCircularPrime = (n: number): boolean => {
 };
 
 const circularPrimes = (max: number): It<number> => {
-    return join([2], filter(range(1, max, 2), isCircularPrime));
+    return join([[2], filter(range(1, max, 2), isCircularPrime)]);
 };
 
 const pb35 = (max = 10 ** 6) => {

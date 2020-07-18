@@ -312,6 +312,19 @@ export function* slices<T>(elems: II<T>): It<T[]> {
     }
 }
 
+export function* shifts<T>(elems: II<T>, slideLen = 1): It<T[]> {
+    const it = iter(elems);
+    const els = [...take(it, slideLen)];
+
+    yield [...els];
+
+    for (const elem of it) {
+        els.shift();
+        yield [...els, elem];
+        els.push(elem);
+    }
+}
+
 export function* chunks<T>(it: II<T>, len: number): It<T[]> {
     if (len <= 0) return;
 
