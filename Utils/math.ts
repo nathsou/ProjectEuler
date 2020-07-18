@@ -104,3 +104,25 @@ export const triangles = (): It<number> => {
 export const pentagons = (): It<number> => {
     return foldLeftIter(range(1, Infinity), (pent, n) => pent + 3 * n + 1, 1);
 };
+
+// h(n) = 2n^2 - n
+// h(n + 1) - h(n) = 2(n + 1)^2 - (n + 1) - (2n^2 - n)
+// h(n + 1) - h(n) = 2n^2 + 4n + 2 - n - 1 - 2n^2 + n
+// h(n + 1) - h(n) =  4n + 1
+export const hexagons = (): It<number> => {
+    return foldLeftIter(range(1, Infinity), (hex, n) => hex + 4 * n + 1, 1);
+};
+
+export const isPentagonal = (n: number): boolean => {
+    return ((1 + Math.sqrt(24 * n + 1)) / 6) % 1 === 0;
+};
+
+// t(n) = (n (n + 1)) / 2 = (n^2 + n) / 2
+export const isTriangular = (n: number): boolean => {
+	return (-(1 / 2) + Math.sqrt(1 / 4 + 2 * n)) % 1 === 0;
+};
+
+// h(n) = 2n^2 - n
+export const isHexagonal = (n: number): boolean => {
+	return ((1 + Math.sqrt(1 + 8 * n)) / 4) % 1 === 0;
+};
