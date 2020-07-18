@@ -385,3 +385,14 @@ export const has = <T>(it: II<T>, ...elems: T[]): boolean => {
 
     return elemsSet.size === 0;
 };
+
+export const fill = <T>(val: T, count: number): T[] => {
+    const vals: T[] = [];
+    for (let i = 0; i < count; i++) {
+        vals.push(val);
+    }
+
+    return vals;
+};
+
+export const zeros = (count: number) => fill(0, count);
