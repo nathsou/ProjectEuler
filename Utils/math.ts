@@ -1,4 +1,4 @@
-import { foldLeft, foldLeftIter, II, It, Num, range } from './iters';
+import { foldLeft, foldLeftIter, history, II, It, Num, range, map, allEq } from './iters';
 import { memoize } from './memoize';
 import { primeFactorsWithExponents } from './prime_factors';
 import { isPalindrome as isStringPalindrome } from './strings';
@@ -125,4 +125,8 @@ export const isTriangular = (n: number): boolean => {
 // h(n) = 2n^2 - n
 export const isHexagonal = (n: number): boolean => {
 	return ((1 + Math.sqrt(1 + 8 * n)) / 4) % 1 === 0;
+};
+
+export const isArithmeticSequence = (seq: number[]): boolean => {
+	return !allEq(seq) && allEq(map(history([...seq].sort(), 2), ([p, c]) => c - p));
 };

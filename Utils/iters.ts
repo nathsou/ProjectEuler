@@ -11,7 +11,7 @@ export function* indexed<T>(iter: Iterable<T>): It<[T, number]> {
     }
 }
 
-export function* history<T>(it_: II<T>, historyLen = 1): It<T[]> {
+export function* history<T>(it_: II<T>, historyLen = 2): It<T[]> {
     const it = iter(it_);
     const prev = [...take(it, historyLen)];
 
@@ -192,7 +192,7 @@ export function* zip<A, B>(
     }
 }
 
-export function* combinations<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
+export function* pairs<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
     const bs_ = [...bs];
     for (const a of as) {
         for (const b of bs_) {
@@ -396,3 +396,11 @@ export const fill = <T>(val: T, count: number): T[] => {
 };
 
 export const zeros = (count: number) => fill(0, count);
+
+export const allEq = <T>(vals: II<T>): boolean => {
+    for (const [p, c] of history(vals, 2)) {
+        if (p !== c) return false;
+    }
+
+    return true;
+};

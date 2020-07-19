@@ -1,4 +1,4 @@
-import { findIndexRight, reverseRange } from "./iters";
+import { findIndexRight, reverseRange, It, take, range, II } from "./iters";
 
 export const swap = <T>(elems: T[], i: number, j: number): void => {
     [elems[i], elems[j]] = [elems[j], elems[i]];
@@ -82,4 +82,42 @@ export const nthPermutation = <T>(n: number, elems: T[]): T[] => {
     }
 
     return copy;
+};
+
+const binomialAux = (n: number, k: number, ns: number, ks: number): number => {
+    if (k === 0) return ns / ks;
+    return binomialAux(n - 1, k - 1, n * ns, k * ks);
+};
+
+export const binomial = (n: number, k: number): number => {
+    return binomialAux(n, k, 1, 1);
+};
+
+const nextCombination = (indices: number[], n: number): boolean => {
+    const k = indices.length;
+
+    for (let i = k - 1; i >= 0; i--) {
+        if (indices[i] < n - k + i + 1) {
+            indices[i]++;
+            for (let j = i + 1; j < k; j++) {
+                indices[j] = indices[j - 1] + 1;
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+};
+
+export function* combinations<T>(elems: II<T>, k: number): It<T[]> {
+    const comb = [...range(k - 1)];
+    const items = [...elems];
+    const n = items.length - 1;
+
+    yield comb.map(i => items[i]);
+
+    while (nextCombination(comb, n)) {
+        yield comb.map(i => items[i]);
+    }
 };

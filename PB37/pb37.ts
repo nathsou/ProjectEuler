@@ -1,4 +1,4 @@
-import { all, combinations, filter, map, range } from "../Utils/iters";
+import { all, pairs, filter, map, range } from "../Utils/iters";
 import { fromDigits, sum } from "../Utils/math";
 import { isPrimeMemoized as isPrime } from "../Utils/primes";
 
@@ -23,7 +23,7 @@ const truncatables = (
     if (prev.length === 0) return acc;
 
     const ps = [...map(filter(
-        combinations(prev, [1, 3, 5, 7, 9]),
+        pairs(prev, [1, 3, 5, 7, 9]),
         ([digits, n]) => isRightTruncatablePrime([...digits, n])
     ), ([digits, n]) => [...digits, n])];
 

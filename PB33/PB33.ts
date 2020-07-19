@@ -1,5 +1,5 @@
 import { Frac, fracProd, fracsEq, simplifyFrac } from "../Utils/fractions";
-import { combinations, range, remove } from "../Utils/iters";
+import { pairs, range, remove } from "../Utils/iters";
 import { fromDigits } from "../Utils/math";
 
 const isFalselyCancelling = (digitsA: number[], digitsB: number[], n: number): boolean => {
@@ -12,7 +12,7 @@ const isFalselyCancelling = (digitsA: number[], digitsB: number[], n: number): b
 const pb33 = () => {
     const fracs: Frac[] = [];
 
-    for (const [a, b] of combinations(range(1, 9), range(1, 9))) {
+    for (const [a, b] of pairs(range(1, 9), range(1, 9))) {
         for (const c of range(1, 9)) {
             if (!fracsEq([a, b], [b, c]) && isFalselyCancelling([a, b], [b, c], b)) {
                 fracs.push([fromDigits([a, b]), fromDigits([b, c])]);
