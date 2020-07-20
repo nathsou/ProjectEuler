@@ -130,3 +130,5 @@ export const isHexagonal = (n: number): boolean => {
 export const isArithmeticSequence = (seq: number[]): boolean => {
 	return !allEq(seq) && allEq(map(history([...seq].sort(), 2), ([p, c]) => c - p));
 };
+
+export const nats = (includeZero = false) => range(includeZero ? 0 : 1, Infinity);

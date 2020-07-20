@@ -8,13 +8,11 @@ const repeatingDigits = (n: number): Array<[number, number[]]> => {
 };
 
 const replace = <T>(elems: T[], value: T, indices: number[]): T[] => {
-    const replaced = [...elems];
-
     for (const idx of indices) {
-        replaced[idx] = value;
+        elems[idx] = value;
     }
-
-    return replaced;
+ 
+    return elems;
 };
 
 const pb51 = (m = 8) => {

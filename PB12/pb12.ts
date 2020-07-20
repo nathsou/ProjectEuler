@@ -1,20 +1,8 @@
-import { divisorsCount } from '../Utils/math';
+import { find } from '../Utils/iters';
+import { divisorsCount, triangles } from '../Utils/math';
 
-export function* triangularNumbers(max: number): IterableIterator<number> {
-    let next = 0;
-
-    for (let i = 1; i <= max; i++) {
-        next += i;
-        yield next;
-    }
-}
-
-const pb12 = (count: number) => {
-    for (const n of triangularNumbers(Infinity)) {
-        if (divisorsCount(n) > count) {
-            return n;
-        }
-    }
+const pb12 = (count: number): number => {
+    return find(triangles(), n => divisorsCount(n) > count).value;
 };
 
 console.log(pb12(500));
