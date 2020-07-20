@@ -84,13 +84,18 @@ export const nthPermutation = <T>(n: number, elems: T[]): T[] => {
     return copy;
 };
 
-const binomialAux = (n: number, k: number, ns: number, ks: number): number => {
-    if (k === 0) return ns / ks;
-    return binomialAux(n - 1, k - 1, n * ns, k * ks);
-};
-
+// see https://projecteuler.net/overview=053
 export const binomial = (n: number, k: number): number => {
-    return binomialAux(n, k, 1, 1);
+    if (k > n - k) {
+        k = n - k;
+    }
+
+    let res = 1;
+    for (let i = 0; i <= k - 1; i++) {
+        res = res * (n - i) / (i + 1);
+    }
+
+    return res;
 };
 
 const nextCombination = (indices: number[], n: number): boolean => {

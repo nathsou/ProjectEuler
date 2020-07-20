@@ -1,4 +1,4 @@
-import { isPalindrome } from "../Utils/strings";
+import { isPalindrome } from "../Utils/arrays";
 import { filter, range } from "../Utils/iters";
 import { sum } from "../Utils/math";
 

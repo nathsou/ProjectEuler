@@ -285,6 +285,19 @@ export function all<T>(
     return true;
 }
 
+export function none<T>(
+    as: II<T>,
+    pred: (a: T) => boolean
+): boolean {
+    for (const a of as) {
+        if (pred(a)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export function any<T>(
     as: II<T>,
     pred: (a: T) => boolean
@@ -368,6 +381,16 @@ export const foldLeft = <T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T)
 
 export function* scanLeft<T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T): It<T> {
     let acc = base !== undefined ? base : nth(it, 0);
+    yield acc;
+
+    for (const val of it) {
+        acc = fn(acc, val);
+        yield acc;
+    }
+}
+
+export function* scanLeft2<T, U>(it: II<U>, fn: (prev: T, current: U) => T, base: T): It<T> {
+    let acc = base;
     yield acc;
 
     for (const val of it) {
