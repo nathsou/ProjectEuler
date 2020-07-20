@@ -366,7 +366,7 @@ export const foldLeft = <T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T)
     return acc;
 };
 
-export function* foldLeftIter<T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T): It<T> {
+export function* scanLeft<T>(it: II<T>, fn: (prev: T, current: T) => T, base?: T): It<T> {
     let acc = base !== undefined ? base : nth(it, 0);
     yield acc;
 

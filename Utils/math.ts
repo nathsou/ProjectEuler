@@ -1,4 +1,4 @@
-import { foldLeft, foldLeftIter, history, II, It, Num, range, map, allEq } from './iters';
+import { foldLeft, scanLeft, history, II, It, Num, range, map, allEq } from './iters';
 import { memoize } from './memoize';
 import { primeFactorsWithExponents } from './prime_factors';
 import { isPalindrome as isStringPalindrome } from './strings';
@@ -70,7 +70,7 @@ export const gcd = <T extends Num>(ns: II<T>): T => {
 	return foldLeft(ns, (g, n) => gcd_(g, n));
 };
 
-export const fact = memoize((n: number) => prod(range(1, n)));
+export const fact = memoize((n: number) => n === 0 ? 1 : n * fact(n - 1));
 
 export const fromDigits = (digits: II<number>): number => {
 	return parseInt([...digits].join(''));
@@ -93,7 +93,7 @@ export const solveQuadraticEq = (a: number, b: number, c: number): [number, numb
 };
 
 export const triangles = (): It<number> => {
-	return foldLeftIter(range(2, Infinity), (tri, n) => tri + n, 1);
+	return scanLeft(range(2, Infinity), (tri, n) => tri + n, 1);
 };
 
 // p(n) = (3n^2 - n) / 2
@@ -102,7 +102,7 @@ export const triangles = (): It<number> => {
 // 2(p(n + 1) - p(n)) = 6n + 2
 // p(n + 1) = p(n) + 3n + 1
 export const pentagons = (): It<number> => {
-    return foldLeftIter(range(1, Infinity), (pent, n) => pent + 3 * n + 1, 1);
+    return scanLeft(range(1, Infinity), (pent, n) => pent + 3 * n + 1, 1);
 };
 
 // h(n) = 2n^2 - n
@@ -110,7 +110,7 @@ export const pentagons = (): It<number> => {
 // h(n + 1) - h(n) = 2n^2 + 4n + 2 - n - 1 - 2n^2 + n
 // h(n + 1) - h(n) =  4n + 1
 export const hexagons = (): It<number> => {
-    return foldLeftIter(range(1, Infinity), (hex, n) => hex + 4 * n + 1, 1);
+    return scanLeft(range(1, Infinity), (hex, n) => hex + 4 * n + 1, 1);
 };
 
 export const isPentagonal = (n: number): boolean => {

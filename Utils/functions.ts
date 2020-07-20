@@ -1,3 +1,4 @@
+import { II, indexed } from "./iters";
 
 export const compose = <T, U, V>(
     f: (u: U) => T,
@@ -9,3 +10,20 @@ export const compose = <T, U, V>(
 export const odd = (n: number): boolean => n % 2 === 1;
 export const even = (n: number): boolean => n % 2 === 0;
 export const not = (q: boolean): boolean => !q;
+export const fst = <A, B>([a, _b]: [A, B]): A => a;
+export const snd = <A, B>([_a, b]: [A, B]): B => b;
+export const empty = <T>(elems: T[]): boolean => elems.length === 0;
+
+export const occurences = <T>(vals: II<T>): Map<T, number[]> => {
+    const occs = new Map<T, number[]>();
+
+    for (const [val, index] of indexed(vals)) {
+        if (!occs.has(val)) {
+            occs.set(val, []);
+        }
+
+        occs.get(val).push(index);
+    }
+
+    return occs;
+};

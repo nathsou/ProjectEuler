@@ -1,10 +1,10 @@
-import { foldLeftIter, takeWhile } from "../Utils/iters";
+import { scanLeft, takeWhile } from "../Utils/iters";
 import { primes, isPrime } from "../Utils/primes";
 
 const pb50 = (m = 10 ** 6) => {
     // build cumulative sums up to m
     // so that sum(primes, from, to) = sums[to] - sums[from]
-    const sums = [...takeWhile(foldLeftIter(primes(), (sum, p) => sum + p, 0), sum => sum <= m)];
+    const sums = [...takeWhile(scanLeft(primes(), (sum, p) => sum + p, 0), sum => sum <= m)];
 
     let longestSeq = 0;
     let longestPrime = 0;
