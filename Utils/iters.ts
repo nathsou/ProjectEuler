@@ -206,6 +206,10 @@ export function digits(n: number | bigint): number[] {
     return `${n}`.split('').map(n => parseInt(n));
 }
 
+export const digitsCount = (n: number | bigint): number => {
+    return `${n}`.length;
+};
+
 export function* digitsReversed(n: number): It<number> {
     while (n !== 0) {
         yield n % 10;
