@@ -42,8 +42,11 @@ export function* take<T>(iterable: II<T>, n: number): It<T> {
     const it = iter(iterable);
     for (let i = 0; i < n; i++) {
         const { value, done } = it.next();
-        yield value;
-        if (done) break;
+        if (done) {
+            break;
+        } else {
+            yield value;
+        }
     }
 }
 
