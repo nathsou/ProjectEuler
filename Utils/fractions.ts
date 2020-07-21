@@ -1,10 +1,10 @@
-import { Num, skip, range } from "./iters";
+import { Num, skip } from "./iters";
 import { gcd } from "./math";
 
 export type Frac<T extends Num = number> = [T, T];
 
 export const simplifyFrac = <T extends Num>([a, b]: Frac<T>): Frac<T> => {
-    const d = gcd(a, b);
+    const d = gcd([a, b]);
     return [a / d as T, b / d as T];
 };
 

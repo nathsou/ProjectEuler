@@ -1,4 +1,5 @@
 import { swap } from "./permutations";
+import { not } from "./functions";
 
 export type It<T> = IterableIterator<T>;
 export type II<T> = It<T> | T[] | Set<T>;
@@ -201,7 +202,7 @@ export function* pairs<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
     }
 }
 
-export function digits(n: number): number[] {
+export function digits(n: number | bigint): number[] {
     return `${n}`.split('').map(n => parseInt(n));
 }
 
@@ -285,18 +286,10 @@ export function all<T>(
     return true;
 }
 
-export function none<T>(
+export const none = <T>(
     as: II<T>,
     pred: (a: T) => boolean
-): boolean {
-    for (const a of as) {
-        if (pred(a)) {
-            return false;
-        }
-    }
-
-    return true;
-}
+): boolean => !any(as, pred); 
 
 export function any<T>(
     as: II<T>,

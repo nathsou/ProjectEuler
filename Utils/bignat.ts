@@ -6,6 +6,7 @@ export const add = (as: number[], bs: Indexed<number>, truncate = false): number
         const ab = (as[i] ?? 0) + (bs[i] ?? 0);
 
         as[i] = ab > 9 ? ab - 10 : ab;
+        
         if (ab > 9) {
             if (i === 0 && !truncate) {
                 as.unshift(1);
