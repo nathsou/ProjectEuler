@@ -205,6 +205,18 @@ export function* pairs<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
     }
 }
 
+export function* triplets<T, U, V>(as: II<T>, bs: II<U>, cs: II<V>): It<[T, U, V]> {
+    const bs_ = [...bs];
+    const cs_ = [...cs];
+    for (const a of as) {
+        for (const b of bs_) {
+            for (const c of cs_) {
+                yield [a, b, c];
+            }
+        }
+    }
+}
+
 export function digits(n: number | bigint): number[] {
     return `${n}`.split('').map(n => parseInt(n));
 }
