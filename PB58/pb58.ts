@@ -14,10 +14,12 @@ function cornerPrimes(n: number): number {
 
 const pb58 = () => {
     let primes = 0;
+    let total = 1;
 
     for (let n = 3 ;; n += 2) {
         primes += cornerPrimes(n);
-        if (primes * 10 < 2 * n - 1) {
+        total += 4;
+        if (primes * 10 < total) {
             return n;
         }
     }

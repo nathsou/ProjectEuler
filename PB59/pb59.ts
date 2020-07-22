@@ -3,14 +3,8 @@ import { cycle, find, map, range, triplets, zip } from "../Utils/iters";
 import { sum } from "../Utils/math";
 import { ascii } from "../Utils/strings";
 
-const decipher = (msg: number[], key: number[]) =>{
-    const deciphered: number[] = new Array(msg.length);
-
-    for (const [a, b] of zip(msg, cycle(key))) {
-        deciphered.push(a ^ b);
-    }
-
-    return String.fromCharCode(...deciphered);
+const decipher = (msg: number[], key: number[]) => {
+    return String.fromCharCode(...map(zip(msg, cycle(key)), ([a, b]) => a ^ b));
 };
 
 const pb59 = () => {
