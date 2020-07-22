@@ -121,6 +121,10 @@ export const octagons = (): It<number> => {
     return scanLeft(range(1, Infinity), (hex, n) => hex + 6 * n + 1, 1);
 };
 
+export const cubes = (): It<number> => {
+    return scanLeft(range(1, Infinity), (c, n) => c + 3 * n * (n + 1) + 1, 1);
+};
+
 // t(n) = (n (n + 1)) / 2 = (n^2 + n) / 2
 export const isTriangular = (n: number): boolean => {
 	return (-(1 / 2) + Math.sqrt(1 / 4 + 2 * n)) % 1 === 0;

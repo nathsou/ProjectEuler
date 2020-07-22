@@ -1,4 +1,4 @@
-import { all, fill, filter, join, map, range, takeWhile, indexed } from "../Utils/iters";
+import { count, fill, filter, indexed, join, map, range, takeWhile } from "../Utils/iters";
 import { heptagons, hexagons, octagons, pentagons, squares, sum, triangles } from "../Utils/math";
 
 const [sq, tr, pent, hex, hept, oct] = [...map([
@@ -19,7 +19,7 @@ const differentPolys = (ps: string[]): boolean => {
         }
     }
 
-    return all(types, t => t);
+    return count(types, t => t) === Math.min(ps.length, 6);
 };
 
 const search = (depth: number, ps: string[] = []): string[] => {
@@ -33,7 +33,7 @@ const search = (depth: number, ps: string[] = []): string[] => {
     }
 
     const prev = `${ps[ps.length - 1]}`.substr(2, 2);
-    
+
     if (depth === 0) {
         if (prev === ps[0].substr(0, 2)) {
             return differentPolys(ps) ? ps : null;
