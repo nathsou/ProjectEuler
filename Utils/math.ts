@@ -92,6 +92,10 @@ export const solveQuadraticEq = (a: number, b: number, c: number): [number, numb
 	return [(-b - s) / (2 * a), (-b + s) / (2 * a)];
 };
 
+export const squares = (): It<number> => {
+	return scanLeft(range(2, Infinity), (sq, n) => sq + 2 * n - 1, 1);
+};
+
 export const triangles = (): It<number> => {
 	return scanLeft(range(2, Infinity), (tri, n) => tri + n, 1);
 };
@@ -105,16 +109,16 @@ export const pentagons = (): It<number> => {
     return scanLeft(range(1, Infinity), (pent, n) => pent + 3 * n + 1, 1);
 };
 
-// h(n) = 2n^2 - n
-// h(n + 1) - h(n) = 2(n + 1)^2 - (n + 1) - (2n^2 - n)
-// h(n + 1) - h(n) = 2n^2 + 4n + 2 - n - 1 - 2n^2 + n
-// h(n + 1) - h(n) =  4n + 1
 export const hexagons = (): It<number> => {
     return scanLeft(range(1, Infinity), (hex, n) => hex + 4 * n + 1, 1);
 };
 
-export const isPentagonal = (n: number): boolean => {
-    return ((1 + Math.sqrt(24 * n + 1)) / 6) % 1 === 0;
+export const heptagons = (): It<number> => {
+    return scanLeft(range(1, Infinity), (hex, n) => hex + 5 * n + 1, 1);
+};
+
+export const octagons = (): It<number> => {
+    return scanLeft(range(1, Infinity), (hex, n) => hex + 6 * n + 1, 1);
 };
 
 // t(n) = (n (n + 1)) / 2 = (n^2 + n) / 2
@@ -122,9 +126,25 @@ export const isTriangular = (n: number): boolean => {
 	return (-(1 / 2) + Math.sqrt(1 / 4 + 2 * n)) % 1 === 0;
 };
 
+export const isSquare = (n: number): boolean => {
+	return Math.sqrt(n) % 1 === 0;
+};
+
+export const isPentagonal = (n: number): boolean => {
+    return ((1 + Math.sqrt(24 * n + 1)) / 6) % 1 === 0;
+};
+
 // h(n) = 2n^2 - n
 export const isHexagonal = (n: number): boolean => {
 	return ((1 + Math.sqrt(1 + 8 * n)) / 4) % 1 === 0;
+};
+
+export const isHeptagonal = (n: number): boolean => {
+	return ((3 / 2 + Math.sqrt(9 / 4 + 10 * n)) / 5) % 1 === 0;
+};
+
+export const isOctagonal = (n: number): boolean => {
+	return ((2 + Math.sqrt(4 + 12 * n)) / 6) % 1 === 0;
 };
 
 export const isArithmeticSequence = (seq: number[]): boolean => {

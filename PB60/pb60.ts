@@ -1,5 +1,5 @@
 import { all, skip, take } from "../Utils/iters";
-import { isPrime, genSieveLessThan } from "../Utils/primes";
+import { genSieveLessThan, isPrime } from "../Utils/primes";
 
 const check = (p: number, ps: number[]) => {
     return all(ps, n => isPrime(Number(`${p}${n}`)) && isPrime(Number(`${n}${p}`)));
