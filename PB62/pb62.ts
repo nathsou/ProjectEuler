@@ -4,7 +4,7 @@ const pb62 = (m = 5) => {
     const memo = new Map<string, number[]>();
     let len = 1;
 
-    for (const c of cubes()) {
+    for (const c of cubes()) {
         const key = `${c}`.split('').sort().join('');
         if (key.length > len) {
             len = key.length;
