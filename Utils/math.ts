@@ -1,8 +1,8 @@
-import { foldLeft, scanLeft, history, II, It, Num, range, map, allEq, join, iter } from './iters';
+import { foldLeft, scanLeft, history, II, It, Num, range, map, allEq, join, iter, nth } from './iters';
 import { memoize } from './memoize';
 import { primeFactorsWithExponents } from './prime_factors';
 import { isPalindrome as isStringPalindrome } from './arrays';
-import { Frac, simplifyFrac } from './fractions';
+import { Frac, simplifyFrac, fracSum } from './fractions';
 
 export const sum = (vals: II<number>): number => {
 	let s = 0;
@@ -161,78 +161,3 @@ export const isArithmeticSequence = (seq: number[]): boolean => {
 };
 
 export const nats = (includeZero = false) => range(includeZero ? 0 : 1, Infinity);
-
-export function* continuedFractions([a, b]: Frac): It<number> {
-	const integral = Math.floor(a / b);
-
-	if (b === 1) {
-		yield a;
-		return;
-	}
-
-	const [a_, b_] = simplifyFrac([a - integral * b, b]);
-
-	yield integral;
-
-	yield* continuedFractions([b_, a_]);
-}
-
-// suppose we want to find the continued fractions of N = (a + sqrt(b)) / c
-// represented by the tuple (a, b, c)
-// then we want to find the value of (a', b', c') such that 
-// (a' + sqrt(b')) / c' = (1 / N) - floor(1 / N)
-
-// 1 / N = c / (a + sqrt(b)) = (c * (a - sqrt(b))) / ((a + sqrt(b)) * (a - sqrt(b)))
-// 1 / N = (c * a - c * sqrt(b)) / (a^2 - b) 
-// 1 / N = (c * a - sign(c) * sqrt(b * c^2)) / (a^2 - b) 
-// therefore
-// 1 / N - floor(1 / N) = (((c * a - floor(1 / N) * (a^2 - b)) - sign(c) * sqrt(b * c^2)) / (a^2 - b))
-// and (a', b', c') = (a*c-floor(1/N)*(a^2-b), -sign(c)*b*c^2, a^2-b)
-function* squareRootContinuedFractionsAux(
-	a: number, b: number, c: number,
-	firstKey: string
-): It<number> {
-	const N = (a + Math.sqrt(b)) / c;
-	const floorInv = Math.floor(1 / N);
-
-	yield floorInv;
-
-	let [a_, b_, c_] = [
-		a * c - floorInv * (a * a - b),
-		-b * c * c,
-		a * a - b
-	];
-
-	if (b_ < 0) {
-		a_ *= -1;
-		b_ *= -1;
-		c_ *= -1;
-	}
-
-	// simplify the terms
-	const g = Math.abs(gcd([a_ * a_, b_, c_ * c_]) / gcd([a_, b_, c_]));
-
-	a_ /= g;
-	b_ /= g * g;
-	c_ /= g;
-
-	const key = `${a_},${b_},${c_}`;
-
-	// stop if the sequence repeats
-	if (key === firstKey) return;
-
-	yield* squareRootContinuedFractionsAux(a_, b_, c_, firstKey);
-}
-
-export const squareRootContinuedFractions = (
-	n: number
-): It<number> => {
-	const a0 = Math.floor(Math.sqrt(n));
-
-	if (a0 * a0 === n) return iter([a0]);
-
-	return join([
-		[a0],
-		squareRootContinuedFractionsAux(-a0, n, 1, `${-a0},${n},1`)
-	]);
-};
