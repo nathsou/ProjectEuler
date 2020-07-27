@@ -1,5 +1,5 @@
 import { history, len, range, map } from "../Utils/iters";
-import { primeFactorsWithExponents } from "../Utils/prime_factors";
+import { primeFactorsWithExponents } from "../Utils/primeFactors";
 import { intersection } from "../Utils/sets";
 
 const factors = (n: number) => primeFactorsWithExponents(n).map(([p, e]) => `${p}^${e}`);

@@ -4,8 +4,8 @@ import { filter, find, map, max, range } from "../Utils/iters";
 import { isSquare } from "../Utils/math";
 
 // let p / q ≈ sqrt(D) for integers p, q and D
-// then a^2 - k^2 ≈ 0
-// in particular lim_(n -> +inf) h_n / k_n = sqrt(D) where h_n, k_n are the convergents of sqrt(D)
+// then p^2 - q^2 ≈ 0
+// in particular lim_(n -> +inf) h_n / k_n = sqrt(D) where h_n, k_n are the nth convergents of sqrt(D)
 // therefore lim_(n -> +inf) h_n^2 - D * k_n^2 = 0
 // if D is a perfect square, then h_0^2 - D * k_0^2 = 0
 // so the equation h_n^2 - D * k_n^2 = 1 has no solution

@@ -1,8 +1,7 @@
-import { foldLeft, scanLeft, history, II, It, Num, range, map, allEq, join, iter, nth } from './iters';
-import { memoize } from './memoize';
-import { primeFactorsWithExponents } from './prime_factors';
 import { isPalindrome as isStringPalindrome } from './arrays';
-import { Frac, simplifyFrac, fracSum } from './fractions';
+import { allEq, foldLeft, history, II, It, map, range, scanLeft } from './iters';
+import { memoize } from './memoize';
+import { primeFactorsWithExponents } from './primeFactors';
 
 export const sum = (vals: II<number>): number => {
 	let s = 0;

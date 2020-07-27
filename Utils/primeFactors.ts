@@ -1,5 +1,5 @@
 import { memoize } from './memoize';
-import { skip } from './iters';
+import { skip, foldLeft, foldLeft2 } from './iters';
 
 function _factorize(n: number): number[] {
     if (n === 2) return [2];
@@ -38,28 +38,7 @@ export function primeFactorsWithExponents(n: number): Array<[number, number]> {
     return withExponents;
 }
 
-const factorize_ref = (n: number, factors: number[]) => {
-    if (n === 2) factors.push(2);
-    if (n % 2 === 0) {
-        factors.push(2);
-        factorize_ref(n / 2, factors);
-    }
-
-    for (let i = 3; i * i <= n; i += 2) {
-        if (n % i === 0) {
-            factors.push(i);
-            factorize_ref(n / i, factors);
-            return;
-        }
-    }
-
-    factors.push(n); // n is prime
+export const totient = (n: number): number => {
+    const factors = primeFactorsWithExponents(n);
+    return Math.round(foldLeft2(factors, (t, [p, _]) => t * (1 - 1 / p), n));
 };
-
-function _factorize2(n: number): number[] {
-    const factors = [];
-    factorize_ref(n, factors);
-    return factors;
-}
-
-export const factorize2 = memoize(_factorize2);

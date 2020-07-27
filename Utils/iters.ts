@@ -429,6 +429,20 @@ export function* scanLeft2<T, U>(
 	}
 }
 
+export function foldLeft2<T, U>(
+	it: II<U>,
+	fn: (prev: T, current: U) => T,
+	base: T,
+): T {
+	let acc = base;
+
+	for (const val of it) {
+		acc = fn(acc, val);
+	}
+
+	return acc;
+}
+
 export const has = <T>(it: II<T>, ...elems: T[]): boolean => {
 	const elemsSet = new Set(elems);
 

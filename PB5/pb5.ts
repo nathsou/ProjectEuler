@@ -1,4 +1,4 @@
-import { factorize } from '../Utils/prime_factors';
+import { factorize } from '../Utils/primeFactors';
 
 function smallestMultiple(m: number): number {
     let n = 1;
