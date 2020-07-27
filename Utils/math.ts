@@ -58,17 +58,22 @@ export const intLog = (n: number, base: number): number => {
 	return i - 1;
 };
 
-export const eq = (a: Num, b: number): boolean => {
-	return typeof a === 'number' ? a === b : a === BigInt(b);
+const gcd_ = (a: number, b: number): number => {
+	if (b === 0) return a;
+	return gcd_(b, a % b);
 };
 
-const gcd_ = <T extends Num>(a: T, b: T): T => {
-	if (eq(b, 0)) return a;
-	return gcd_(b, (a % b) as T);
+const gcdB_ = (a: bigint, b: bigint): bigint => {
+	if (b === 0n) return a;
+	return gcdB_(b, a % b);
 };
 
-export const gcd = <T extends Num>(ns: II<T>): T => {
+export const gcd = (ns: II<number>): number => {
 	return foldLeft(ns, (g, n) => gcd_(g, n));
+};
+
+export const gcdB = (ns: II<bigint>): bigint => {
+	return foldLeft(ns, (g, n) => gcdB_(g, n), 0n);
 };
 
 export const fact = memoize((n: number) => n === 0 ? 1 : n * fact(n - 1));
@@ -136,7 +141,7 @@ export const isTriangular = (n: number): boolean => {
 };
 
 export const isSquare = (n: number): boolean => {
-	return isInt(Math.sqrt(n));
+	return isInt(n) && isInt(Math.sqrt(n));
 };
 
 export const isPentagonal = (n: number): boolean => {

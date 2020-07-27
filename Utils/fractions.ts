@@ -1,22 +1,23 @@
-import { Num, skip, It, iter, join, nth, II, cycle, take } from "./iters";
-import { gcd } from "./math";
+import { cycle, II, It, iter, join, map, nth, Num, skip, take } from "./iters";
+import { gcd, gcdB } from "./math";
 
 export type Frac<T extends Num = number> = [T, T];
 
 export const numerator = <T extends Num>([a, _]: Frac<T>) => a;
 export const denominator = <T extends Num>([_, b]: Frac<T>) => b;
 
-export const simplifyFrac = <T extends Num>([a, b]: Frac<T>): Frac<T> => {
+export const simplifyFrac = ([a, b]: Frac): Frac => {
     const d = gcd([a, b]);
-    return [a / d as T, b / d as T];
+    return [a / d, b / d];
 };
 
-export const fracsEq = <T extends Num>(frac1: Frac<T>, frac2: Frac<T>): boolean => {
-    if (frac1[0] === frac2[0] && frac1[1] === frac2[1]) return true;
-    const [a, b] = simplifyFrac(frac1);
-    const [c, d] = simplifyFrac(frac2);
+export const simplifyFracB = ([a, b]: Frac<bigint>): Frac<bigint> => {
+    const d = gcdB([a, b]);
+    return [a / d, b / d];
+};
 
-    return a === c && b === d;
+export const fracsEq = ([a, b]: Frac, [c, d]: Frac): boolean => {
+    return a * d - b * c === 0;
 };
 
 export const fracProd = <T extends Num>(...fracs: Frac<T>[]): Frac<T> => {
@@ -152,8 +153,7 @@ export const squareRootContinuedFractions = (
 };
 
 export function* convergents(continuedSeq: It<number>): It<Frac> {
-    const it = iter(continuedSeq);
-    const [a0, a1] = [...take(it, 2)];
+    const [a0, a1] = [...take(continuedSeq, 2)];
 
     let [h0, k0]: Frac = [a0, 1];
     let [h1, k1]: Frac = [a1 * a0 + 1, a1];
@@ -161,9 +161,26 @@ export function* convergents(continuedSeq: It<number>): It<Frac> {
     yield [h0, k0];
     yield [h1, k1];
 
-    for (const an of it) {
+    for (const an of continuedSeq) {
         const tmp = [h1, k1];
         [h1, k1] = simplifyFrac([an * h1 + h0, an * k1 + k0]);
+        [h0, k0] = tmp;
+        yield [h1, k1];
+    }
+}
+
+export function* convergentsB(continuedSeq: It<number>): It<Frac<bigint>> {
+    const [a0, a1] = [...map(take(continuedSeq, 2), BigInt)];
+
+    let [h0, k0]: Frac<bigint> = [a0, 1n];
+    let [h1, k1]: Frac<bigint> = [a1 * a0 + 1n, a1];
+
+    yield [h0, k0];
+    yield [h1, k1];
+
+    for (const an of map(continuedSeq, BigInt)) {
+        const tmp = [h1, k1];
+        [h1, k1] = simplifyFracB([an * h1 + h0, an * k1 + k0]);
         [h0, k0] = tmp;
         yield [h1, k1];
     }
@@ -177,3 +194,11 @@ export function* iterContinuedFractions(it_: II<number>): It<number> {
 
     yield* cycle(it);
 }
+
+export const sqrtConvergents = (n: number): It<Frac> => {
+    return convergents(iterContinuedFractions(squareRootContinuedFractions(n)));
+};
+
+export const sqrtConvergentsB = (n: number): It<Frac<bigint>> => {
+    return convergentsB(iterContinuedFractions(squareRootContinuedFractions(n)));
+};

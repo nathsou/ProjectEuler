@@ -3,6 +3,7 @@ import { sum } from "../Utils/math";
 
 function* eFractions(): It<number> {
     yield* [2, 1, 2];
+
     let n = 4;
 
     while (true) {
@@ -11,7 +12,8 @@ function* eFractions(): It<number> {
     }
 }
 
-function* numerators(as: It<number>): It<bigint> {
+function* numerators(): It<bigint> {
+    const as = eFractions();
     let [h0, h1] = [2n, 3n];
     yield* [h0, h1];
 
@@ -21,8 +23,8 @@ function* numerators(as: It<number>): It<bigint> {
     }
 }
 
-const pb65 = (n = 100): number => {
-    return sum(digits(nth(numerators(eFractions()), n)));
+const pb65 = (n = 100) => {
+    return sum(digits(nth(numerators(), n)));
 };
 
 console.log(pb65());
