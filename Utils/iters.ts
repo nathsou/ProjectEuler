@@ -157,6 +157,24 @@ export const max = <T>(
 	return { value: max, index: maxIdx };
 };
 
+export const min = <T>(
+	iterable: II<T>,
+	lss = (a: T, b: T) => a < b,
+): { value: T; index: number } => {
+	const it = iter(iterable);
+	let min: T = it.next().value;
+	let minIdx = 0;
+
+	for (const [val, i] of indexed(it)) {
+		if (lss(val, min)) {
+			min = val;
+			minIdx = i + 1;
+		}
+	}
+
+	return { value: min, index: minIdx };
+};
+
 export function* range<T extends Num>(
 	from: T,
 	to?: T,
