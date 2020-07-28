@@ -1,4 +1,4 @@
-import { It } from "./iters";
+import { It, II } from "./iters";
 
 export const isPalindrome = <T>(vals: T[] | string): boolean => {
     let left = 0;
@@ -34,4 +34,19 @@ export const rev = <T>(vals: T[]): Indexed<T> => {
             return vals[vals.length - 1 - Number(prop)];
         }
     });
+};
+
+export const uniq = <T>(vals: II<T>, hasher: (val: T) => string = val => `${val}`): T[] => {
+    const keys = new Set<string>();
+    const uniqueVals: T[] = [];
+
+    for (const val of vals) {
+        const key = hasher(val);
+        if (!keys.has(key)) {
+            keys.add(key);
+            uniqueVals.push(val);
+        }
+    }
+
+    return uniqueVals;
 };

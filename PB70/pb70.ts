@@ -10,8 +10,7 @@ import { primes } from "../Utils/primes";
 // if n is prime, then phi(n) = n - 1 which cannot be a permutation
 // of the digits of n
 
-// so n must have at least 2 prime factors p0 and p1:
-// n / phi(n) = (1 - 1 / p0) * (1 - 1 / p1)
+// so n must have at least 2 prime factors p0 and p1
 
 const perm = (n: number): string => {
     return [...digitsReversed(n)].sort().join('');
@@ -22,10 +21,11 @@ const n_phi = (p0: number, p1: number): number => {
 };
 
 const phi = (p0: number, p1: number): number => {
-    return Math.floor(p0 * p1 * (1 - 1 / p0) * (1 - 1 / p1));
+    return Math.floor((p0 - 1) * (p1 - 1));
 };
 
-const pb70 = (m = 10 ** 7) => {
+const pb70 = (): number => {
+    const m = 10 ** 7;
     // let's assume our solution has two prime factors 
     // find the first number n less than m with two prime factors
     // a and b such that 2 * a > b (to ensure both are relatively big)
@@ -45,6 +45,7 @@ const pb70 = (m = 10 ** 7) => {
     const [a, b] = min(map(filter(
         pairs(ps, ps),
         ([p0, p1]) =>
+            p0 < p1 &&
             p0 * p1 < m &&
             2 * p0 > p1 &&
             perm(p0 * p1) === perm(phi(p0, p1))
