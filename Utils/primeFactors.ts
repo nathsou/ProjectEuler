@@ -1,9 +1,9 @@
+import { foldLeft2, skip } from './iters';
 import { memoize } from './memoize';
-import { skip, foldLeft, foldLeft2 } from './iters';
 
 function _factorize(n: number): number[] {
     if (n === 2) return [2];
-    if (n % 2 === 0) return [2, ..._factorize(n / 2)];
+    if ((n & 1) === 0) return [2, ..._factorize(n / 2)];
 
     for (let i = 3; i * i <= n; i += 2) {
         if (n % i === 0) {
