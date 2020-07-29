@@ -1,17 +1,17 @@
-import { count, digitsReversedB, map, range } from "../Utils/iters";
-import { factB, sumB } from "../Utils/math";
+import { count, digitsReversed, map, range } from "../Utils/iters";
+import { fact, sum } from "../Utils/math";
 
-const digitsFactorialSum = (n: bigint): bigint => {
-    return sumB(map(digitsReversedB(n), factB));
+const digitsFactorialSum = (n: number): number => {
+    return sum(map(digitsReversed(n), fact));
 };
 
 const digitFactorialChainLen = () => {
-    const memo = new Map<bigint, number>();
+    const memo = new Map<number, number>();
 
-    return (n: bigint) => {
+    return (n: number) => {
         if (memo.has(n)) return memo.get(n);
         let m = n;
-        const seq = new Set<bigint>();
+        const seq = new Set<number>();
         let len = 0;
 
         do {
@@ -19,8 +19,9 @@ const digitFactorialChainLen = () => {
             m = digitsFactorialSum(m);
             len++;
             if (memo.has(m)) {
-                memo.set(n, len + memo.get(m));
-                return len + memo.get(m);
+                const totalLen = len + memo.get(m);
+                memo.set(n, totalLen);
+                return totalLen;
             }
         } while (!seq.has(m));
 
@@ -29,9 +30,9 @@ const digitFactorialChainLen = () => {
     };
 };
 
-const pb74 = (l = 60, m = 10n ** 6n): number => {
+const pb74 = (l = 60, m = 10 ** 6): number => {
     const chainLen = digitFactorialChainLen();
-    return count(range(1n, m), n => chainLen(n) === l);
+    return count(range(1, m), n => chainLen(n) === l);
 };
 
 console.log(pb74());

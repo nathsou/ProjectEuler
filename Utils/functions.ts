@@ -9,6 +9,7 @@ export const compose = <T, U, V>(
 
 export const odd = (n: number): boolean => (n & 1) === 1;
 export const even = (n: number): boolean => (n & 1) === 0;
+export const eq = <T>(a: T) => (b: T) => a === b;
 export const not = (q: boolean): boolean => !q;
 export const fst = <A, B>([a, _b]: [A, B]): A => a;
 export const snd = <A, B>([_a, b]: [A, B]): B => b;

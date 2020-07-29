@@ -112,7 +112,7 @@ export function* skip<T>(
 	yield* it;
 }
 
-export const len = <T>(it: It<T>): number => {
+export const len = <T>(it: II<T>): number => {
 	let count = 0;
 	for (const _ of it) count++;
 	return count;

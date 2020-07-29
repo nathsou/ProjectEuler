@@ -21,7 +21,8 @@ export const prod = (vals: II<number>): number => {
 	return p;
 };
 
-export const divisors = (n: number): number[] => {
+// returns the divisors of n <= sqrt(n)
+export const smallDivisors = (n: number): number[] => {
 	if (n === 0) return [];
 	const divs = [1];
 
@@ -32,10 +33,14 @@ export const divisors = (n: number): number[] => {
 		}
 	}
 
-	const len = divs.length;
+	return divs;
+};
+
+export const divisors = (n: number): number[] => {
+	const divs = smallDivisors(n);
 
 	// the remaining divisors are mirrors of the smaller ones
-	for (let i = len - 1; i >= 0; i--) {
+	for (let i = divs.length - 1; i >= 0; i--) {
 		const k = divs[i];
 		const divisor = n / k;
 
