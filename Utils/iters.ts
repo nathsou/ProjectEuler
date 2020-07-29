@@ -256,6 +256,13 @@ export function* digitsReversed(n: number): It<number> {
 	}
 }
 
+export function* digitsReversedB(n: bigint): It<bigint> {
+	while (n !== 0n) {
+		yield n % 10n;
+		n = n / 10n;
+	}
+}
+
 export function* join<T>(iters: II<II<T>>): It<T> {
 	for (const iter of iters) {
 		yield* iter;
@@ -445,6 +452,31 @@ export function* scanLeft2<T, U>(
 		acc = fn(acc, val);
 		yield acc;
 	}
+}
+
+export function* accumulateWhile<T>(
+	fn: (current: T) => T,
+	pred: (current: T) => boolean,
+	base: T
+): It<T> {
+	let acc = base;
+
+	do {
+		yield acc;
+		acc = fn(acc);
+	} while (pred(acc));
+}
+
+export function* accumulate<T>(
+	fn: (current: T) => T,
+	base: T
+): It<T> {
+	let acc = base;
+
+	do {
+		yield acc;
+		acc = fn(acc);
+	} while (true);
 }
 
 export function foldLeft2<T, U>(

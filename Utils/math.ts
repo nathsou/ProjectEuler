@@ -9,6 +9,12 @@ export const sum = (vals: II<number>): number => {
 	return s;
 };
 
+export const sumB = (vals: II<bigint>): bigint => {
+	let s = 0n;
+	for (const val of vals) s += val;
+	return s;
+};
+
 export const prod = (vals: II<number>): number => {
 	let p = 1;
 	for (const val of vals) p *= val;
@@ -76,6 +82,7 @@ export const gcdB = (ns: II<bigint>): bigint => {
 };
 
 export const fact = memoize((n: number) => n === 0 ? 1 : n * fact(n - 1));
+export const factB = memoize((n: bigint) => n === 0n ? 1n : n * factB(n - 1n));
 
 export const fromDigits = (digits: II<number>): number => {
 	return parseInt([...digits].join(''));
