@@ -1,4 +1,5 @@
 import { memoize } from "../Utils/memoize";
+import { countSums } from "./countSums";
 
 const coins = [1, 2, 5, 10, 20, 50, 100, 200];
 
@@ -24,7 +25,8 @@ const generateCombinations = memoize((cents: number): number[][] => {
 });
 
 const pb31 = (amount = 200) => {
-    return generateCombinations(amount).length;
+    // return generateCombinations(amount).length;
+    return countSums(amount, coins);
 };
 
 console.log(pb31());
