@@ -1,30 +1,30 @@
+import { max, fill } from "../Utils/iters";
 
-const collatzLen = (n: number): number => {
-    if (n === 0) return Infinity;
+const collatzLens = (count: number) => {
+    const lens = fill(0, count);
+    lens[1] = 1;
 
-    let i = 0;
-    for (; n !== 1; i++) {
-        n = n % 2 === 0 ? n / 2 : 3 * n + 1;
-    }
+    const seqLen = (n: number, curr = n, steps = 1): void => {
+        if (curr === 1) return;
 
-    return i + 1;
-};
+        const next = curr % 2 === 0 ? curr / 2 : 3 * curr + 1;
 
-const pb14 = (max: number): number => {
-    let longestLen = 0;
-    let longest = 0;
-
-    for (let i = 1; i < max; i++) {
-        const len = collatzLen(i);
-        if (len > longestLen) {
-            longest = i;
-            longestLen = len;
+        if (next < count && lens[next] !== 0) {
+            lens[n] = lens[next] + steps;
+        } else {
+            seqLen(n, next, steps + 1);
         }
+    };
+
+    for (let i = 1; i <= count; i++) {
+        seqLen(i);
     }
 
-    return longest;
+    return lens;
 };
 
+const pb14 = (m = 10 ** 6): number => {
+    return max(collatzLens(m)).index;
+};
 
-console.log(pb14(10 ** 6));
-// console.log(collatzLen(13));
+console.log(pb14());
