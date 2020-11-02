@@ -1,92 +1,38 @@
 "use strict";
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (this && this.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 };
 exports.__esModule = true;
-exports.nats = exports.isArithmeticSequence = exports.isOctagonal = exports.isHeptagonal = exports.isHexagonal = exports.isPentagonal = exports.isSquare = exports.isTriangular = exports.isInt = exports.cubes = exports.octagons = exports.heptagons = exports.hexagons = exports.pentagons = exports.triangles = exports.squares = exports.solveQuadraticEq = exports.isPalindrome = exports.fromDigits = exports.factB = exports.fact = exports.gcdB = exports.gcd = exports.intLog = exports.divisorsCount = exports.divisors = exports.smallDivisors = exports.prod = exports.sumB = exports.sum = void 0;
+exports.modPow = exports.nats = exports.isArithmeticSequence = exports.isOctagonal = exports.isHeptagonal = exports.isHexagonal = exports.isPentagonal = exports.isSquare = exports.isTriangular = exports.isInt = exports.cubes = exports.octagons = exports.heptagons = exports.hexagons = exports.pentagons = exports.triangles = exports.squares = exports.solveQuadraticEq = exports.isPalindrome = exports.fromDigits = exports.factB = exports.fact = exports.gcdB = exports.gcd = exports.intLog = exports.divisorsCount = exports.divisors = exports.smallDivisors = exports.prod = exports.sumB = exports.sum = void 0;
 var arrays_1 = require("./arrays");
 var iters_1 = require("./iters");
 var memoize_1 = require("./memoize");
 var primeFactors_1 = require("./primeFactors");
 exports.sum = function (vals) {
-    var e_1, _a;
     var s = 0;
-    try {
-        for (var vals_1 = __values(vals), vals_1_1 = vals_1.next(); !vals_1_1.done; vals_1_1 = vals_1.next()) {
-            var val = vals_1_1.value;
-            s += val;
-        }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (vals_1_1 && !vals_1_1.done && (_a = vals_1["return"])) _a.call(vals_1);
-        }
-        finally { if (e_1) throw e_1.error; }
+    for (var _i = 0, vals_1 = vals; _i < vals_1.length; _i++) {
+        var val = vals_1[_i];
+        s += val;
     }
     return s;
 };
 exports.sumB = function (vals) {
-    var e_2, _a;
     var s = 0n;
-    try {
-        for (var vals_2 = __values(vals), vals_2_1 = vals_2.next(); !vals_2_1.done; vals_2_1 = vals_2.next()) {
-            var val = vals_2_1.value;
-            s += val;
-        }
-    }
-    catch (e_2_1) { e_2 = { error: e_2_1 }; }
-    finally {
-        try {
-            if (vals_2_1 && !vals_2_1.done && (_a = vals_2["return"])) _a.call(vals_2);
-        }
-        finally { if (e_2) throw e_2.error; }
+    for (var _i = 0, vals_2 = vals; _i < vals_2.length; _i++) {
+        var val = vals_2[_i];
+        s += val;
     }
     return s;
 };
 exports.prod = function (vals) {
-    var e_3, _a;
     var p = 1;
-    try {
-        for (var vals_3 = __values(vals), vals_3_1 = vals_3.next(); !vals_3_1.done; vals_3_1 = vals_3.next()) {
-            var val = vals_3_1.value;
-            p *= val;
-        }
-    }
-    catch (e_3_1) { e_3 = { error: e_3_1 }; }
-    finally {
-        try {
-            if (vals_3_1 && !vals_3_1.done && (_a = vals_3["return"])) _a.call(vals_3);
-        }
-        finally { if (e_3) throw e_3.error; }
+    for (var _i = 0, vals_3 = vals; _i < vals_3.length; _i++) {
+        var val = vals_3[_i];
+        p *= val;
     }
     return p;
 };
@@ -119,7 +65,7 @@ exports.divisors = function (n) {
 exports.divisorsCount = function (n) {
     return primeFactors_1.primeFactorsWithExponents(n)
         .reduce(function (count, _a) {
-        var _b = __read(_a, 2), _ = _b[0], power = _b[1];
+        var _ = _a[0], power = _a[1];
         return (power + 1) * count;
     }, 1);
 };
@@ -149,7 +95,7 @@ exports.gcdB = function (ns) {
 exports.fact = memoize_1.memoize(function (n) { return n === 0 ? 1 : n * exports.fact(n - 1); });
 exports.factB = memoize_1.memoize(function (n) { return n === 0n ? 1n : n * exports.factB(n - 1n); });
 exports.fromDigits = function (digits) {
-    return parseInt(__spread(digits).join(''));
+    return parseInt(__spreadArrays(digits).join(''));
 };
 function isPalindrome(n) {
     return arrays_1.isPalindrome("" + n);
@@ -214,12 +160,28 @@ exports.isOctagonal = function (n) {
     return exports.isInt((2 + Math.sqrt(4 + 12 * n)) / 6);
 };
 exports.isArithmeticSequence = function (seq) {
-    return !iters_1.allEq(seq) && iters_1.allEq(iters_1.map(iters_1.history(__spread(seq).sort(), 2), function (_a) {
-        var _b = __read(_a, 2), p = _b[0], c = _b[1];
+    return !iters_1.allEq(seq) && iters_1.allEq(iters_1.map(iters_1.history(__spreadArrays(seq).sort(), 2), function (_a) {
+        var p = _a[0], c = _a[1];
         return c - p;
     }));
 };
 exports.nats = function (includeZero) {
     if (includeZero === void 0) { includeZero = false; }
     return iters_1.range(includeZero ? 0 : 1, Infinity);
+};
+exports.modPow = function (a, b, mod) {
+    if (b === 0)
+        return 1;
+    if (b === 1)
+        return a % mod;
+    var n = b;
+    var p = 1;
+    var res = 1;
+    while (n !== 0) {
+        console.log(n & 1, n, res, p);
+        n = n >> 1;
+        res *= (Math.pow(a, p)) % mod;
+        p *= 2;
+    }
+    return res % mod;
 };

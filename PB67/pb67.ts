@@ -6,4 +6,5 @@ const triangle = readFileSync('triangle.txt').toString()
     .map(row => row.split(' ')
         .map(n => parseInt(n)));
 
+
 console.log(maxPathSum(triangle));

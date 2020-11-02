@@ -26,19 +26,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
 exports.__esModule = true;
-exports.uniq = exports.rev = exports.isPalindrome = void 0;
+exports.uniq = exports.rev = exports.isPalindrome = exports.last = void 0;
+exports.last = function (vals) {
+    return vals[vals.length - 1];
+};
 exports.isPalindrome = function (vals) {
     var left = 0;
     var right = vals.length - 1;
@@ -83,26 +75,16 @@ exports.rev = function (vals) {
     });
 };
 exports.uniq = function (vals, hasher) {
-    var e_1, _a;
     if (hasher === void 0) { hasher = function (val) { return "" + val; }; }
     var keys = new Set();
     var uniqueVals = [];
-    try {
-        for (var vals_1 = __values(vals), vals_1_1 = vals_1.next(); !vals_1_1.done; vals_1_1 = vals_1.next()) {
-            var val = vals_1_1.value;
-            var key = hasher(val);
-            if (!keys.has(key)) {
-                keys.add(key);
-                uniqueVals.push(val);
-            }
+    for (var _i = 0, vals_1 = vals; _i < vals_1.length; _i++) {
+        var val = vals_1[_i];
+        var key = hasher(val);
+        if (!keys.has(key)) {
+            keys.add(key);
+            uniqueVals.push(val);
         }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (vals_1_1 && !vals_1_1.done && (_a = vals_1["return"])) _a.call(vals_1);
-        }
-        finally { if (e_1) throw e_1.error; }
     }
     return uniqueVals;
 };

@@ -177,3 +177,21 @@ export const isArithmeticSequence = (seq: number[]): boolean => {
 };
 
 export const nats = (includeZero = false) => range(includeZero ? 0 : 1, Infinity);
+
+export const modPow = (a: number, b: number, mod: number): number => {
+	if (b === 0) return 1;
+	if (b === 1) return a % mod;
+
+	let n = b;
+	let p = 1;
+	let res = 1;
+
+	while (n !== 0) {
+		console.log(n & 1, n, res, p);
+		n = n >> 1;
+		res *= (a ** p) % mod;
+		p *= 2;
+	}
+
+	return res % mod;
+};

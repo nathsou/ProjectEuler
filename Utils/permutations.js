@@ -26,38 +26,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (this && this.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 };
 exports.__esModule = true;
 exports.combinations = exports.binomial = exports.nthPermutation = exports.reverseLexicographicPermutations = exports.lexicographicPermutations = exports.prevPermutation = exports.nextPermutation = exports.permutations = exports.swap = void 0;
 var iters_1 = require("./iters");
 exports.swap = function (elems, i, j) {
     var _a;
-    _a = __read([elems[j], elems[i]], 2), elems[i] = _a[0], elems[j] = _a[1];
+    _a = [elems[j], elems[i]], elems[i] = _a[0], elems[j] = _a[1];
 };
 // Heap algorithm
 var generate = function (A, perms, k) {
     if (k === void 0) { k = A.length; }
     if (k === 1) {
-        perms.push(__spread(A));
+        perms.push(__spreadArrays(A));
         return;
     }
     generate(A, perms, k - 1);
@@ -100,13 +87,13 @@ exports.prevPermutation = function (elems) {
 function lexicographicPermutations(elems) {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, __spread(elems)];
+            case 0: return [4 /*yield*/, __spreadArrays(elems)];
             case 1:
                 _a.sent();
                 _a.label = 2;
             case 2:
                 if (!exports.nextPermutation(elems)) return [3 /*break*/, 4];
-                return [4 /*yield*/, __spread(elems)];
+                return [4 /*yield*/, __spreadArrays(elems)];
             case 3:
                 _a.sent();
                 return [3 /*break*/, 2];
@@ -118,13 +105,13 @@ exports.lexicographicPermutations = lexicographicPermutations;
 function reverseLexicographicPermutations(elems) {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, __spread(elems)];
+            case 0: return [4 /*yield*/, __spreadArrays(elems)];
             case 1:
                 _a.sent();
                 _a.label = 2;
             case 2:
                 if (!exports.prevPermutation(elems)) return [3 /*break*/, 4];
-                return [4 /*yield*/, __spread(elems)];
+                return [4 /*yield*/, __spreadArrays(elems)];
             case 3:
                 _a.sent();
                 return [3 /*break*/, 2];
@@ -134,7 +121,7 @@ function reverseLexicographicPermutations(elems) {
 }
 exports.reverseLexicographicPermutations = reverseLexicographicPermutations;
 exports.nthPermutation = function (n, elems) {
-    var copy = __spread(elems);
+    var copy = __spreadArrays(elems);
     for (var i = 0; i < n - 1; i++) {
         exports.nextPermutation(copy);
     }
@@ -169,8 +156,8 @@ function combinations(elems, k) {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                comb = __spread(iters_1.range(k - 1));
-                items = __spread(elems);
+                comb = __spreadArrays(iters_1.range(k - 1));
+                items = __spreadArrays(elems);
                 n = items.length - 1;
                 return [4 /*yield*/, comb.map(function (i) { return items[i]; })];
             case 1:
