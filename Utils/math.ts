@@ -187,7 +187,6 @@ export const modPow = (a: number, b: number, mod: number): number => {
 	let res = 1;
 
 	while (n !== 0) {
-		console.log(n & 1, n, res, p);
 		n = n >> 1;
 		res *= (a ** p) % mod;
 		p *= 2;
