@@ -6,13 +6,18 @@ const run = cmd => {
     const [name, ...args] = cmd.split(' ');
     const bundle = spawn(name, args);
     const allData = [];
+    const allErr = [];
 
     bundle.stdout.on('data', data => {
       allData.push(data.toString());
     });
 
+    bundle.stderr.on('data', data => {
+      allErr.push(data.toString());
+    });
+
     bundle.on('close', () => {
-      resolve(allData.join(''));
+      resolve((allErr.length > 0 ? allErr : allData).join(''));
     });
 
     bundle.on('error', err => {
