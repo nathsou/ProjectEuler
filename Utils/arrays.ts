@@ -54,3 +54,8 @@ export const uniq = <T>(vals: II<T>, hasher: (val: T) => string = val => `${val}
 
     return uniqueVals;
 };
+
+export const swapRemove = <T>(vals: T[], index: number): void => {
+    [vals[index], vals[vals.length - 1]] = [vals[vals.length - 1], vals[index]];
+    vals.pop();
+};
