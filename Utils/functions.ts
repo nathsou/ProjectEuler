@@ -7,6 +7,7 @@ export const compose = <T, U, V>(
     return (v: V) => f(g(v));
 };
 
+export const id = <T>(x: T): T => x;
 export const odd = (n: number): boolean => (n & 1) === 1;
 export const even = (n: number): boolean => (n & 1) === 0;
 export const eq = <T>(a: T) => (b: T) => a === b;

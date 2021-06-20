@@ -71,7 +71,7 @@ const createGame = (maxDiceValue = 6) => {
 
   const dist = (from: number, to: number): number => {
     const signedDist = to - from;
-    return signedDist < 0 ? signedDist + 40 : signedDist;
+    return signedDist < 0 ? signedDist + 39 : signedDist;
   };
 
   const goToNext = (position: number, squares: Square[]): void => {
@@ -96,7 +96,7 @@ const createGame = (maxDiceValue = 6) => {
     'GoToR1': () => goTo('R1'),
     'GoToNextR': pos => goToNext(pos, ['R1', 'R2', 'R3', 'R4']),
     'GoToNextU': pos => goToNext(pos, ['U1', 'U2']),
-    'GoBack3Squares': pos => goTo(board[pos - 3 < 0 ? pos + 40 - 3 : pos - 3])
+    'GoBack3Squares': pos => goTo(board[pos - 3 < 0 ? pos + 39 - 3 : pos - 3])
   };
 
   const followCardAction = (card: Card): void => {
@@ -115,33 +115,37 @@ const createGame = (maxDiceValue = 6) => {
     steps++;
     const { sum, isDouble } = rollDice();
 
+    let skip = false;
+
     if (isDouble) {
       consecutiveDoubles++;
       if (consecutiveDoubles === 3) {
         consecutiveDoubles = 0;
         goTo('JAIL');
-        return;
+        skip = true;
       }
     } else {
       consecutiveDoubles = 0;
     }
 
-    advance(sum);
+    if (!skip) {
+      advance(sum);
 
-    switch (board[position]) {
-      case 'G2J':
-        goTo('JAIL');
-        break;
-      case 'CC1':
-      case 'CC2':
-      case 'CC3':
-        pickComunityChestCard();
-        break;
-      case 'CH1':
-      case 'CH2':
-      case 'CH3':
-        pickChanceCard();
-        break;
+      switch (board[position]) {
+        case 'G2J':
+          goTo('JAIL');
+          break;
+        case 'CC1':
+        case 'CC2':
+        case 'CC3':
+          pickComunityChestCard();
+          break;
+        case 'CH1':
+        case 'CH2':
+        case 'CH3':
+          pickChanceCard();
+          break;
+      }
     }
 
     visits[position]++;
