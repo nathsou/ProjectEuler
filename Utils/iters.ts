@@ -1,4 +1,4 @@
-import { swap } from "./permutations";
+import { swapMut } from "./permutations";
 
 export type It<T> = IterableIterator<T>;
 export type II<T> = It<T> | T[] | Set<T>;
@@ -135,7 +135,7 @@ export const reverseRange = <T>(
 	end: number,
 ): void => {
 	while (start < end) {
-		swap(elems, start++, end--);
+		swapMut(elems, start++, end--);
 	}
 };
 

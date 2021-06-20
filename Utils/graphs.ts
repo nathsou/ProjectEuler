@@ -43,12 +43,13 @@ export class Graph<Labels = string> {
 }
 
 export const dijkstra = <Labels = string>(g: Graph<Labels>, source: Labels) => {
-  const unvisited = new Heap<Labels, number>(g.getVertices().map(v => [v, Infinity]), (a, b) => a < b);
+  const unvisited = new Heap<Labels, number>(
+    g.getVertices().map(v => [v, v === source ? 0 : Infinity]),
+    (a, b) => a < b
+  );
+
   const visited = new Set<Labels>();
   const distances = new Map<Labels, number>(unvisited.getData());
-
-  distances.set(source, 0);
-  unvisited.updatePriority(source, 0);
 
   while (!unvisited.empty()) {
     const [u, d] = unvisited.removeHighestPriority();

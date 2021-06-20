@@ -1,4 +1,6 @@
-import { It, II } from "./iters";
+import { II, It } from "./iters";
+import { swapMut } from "./permutations";
+import { randomIntBetwen } from "./random";
 
 export const last = <T>(vals: T[]): T | undefined => {
     return vals[vals.length - 1];
@@ -56,6 +58,17 @@ export const uniq = <T>(vals: II<T>, hasher: (val: T) => string = val => `${val}
 };
 
 export const swapRemove = <T>(vals: T[], index: number): void => {
-    [vals[index], vals[vals.length - 1]] = [vals[vals.length - 1], vals[index]];
+    swapMut(vals, index, vals.length - 1);
     vals.pop();
+};
+
+export const shuffle = <T>(vals: II<T>, rand = Math.random): T[] => {
+    const shuffled = [...vals];
+
+    for (let i = shuffled.length - 1; i >= 1; i--) {
+        const j = randomIntBetwen(0, i, rand);
+        swapMut(shuffled, i, j);
+    }
+
+    return shuffled;
 };

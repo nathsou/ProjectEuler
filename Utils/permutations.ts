@@ -1,6 +1,6 @@
-import { findIndexRight, reverseRange, It, take, range, II } from "./iters";
+import { findIndexRight, II, It, range, reverseRange } from "./iters";
 
-export const swap = <T>(elems: T[], i: number, j: number): void => {
+export const swapMut = <T>(elems: T[], i: number, j: number): void => {
     [elems[i], elems[j]] = [elems[j], elems[i]];
 };
 
@@ -15,9 +15,9 @@ const generate = <T>(A: T[], perms: T[][], k = A.length) => {
 
     for (let i = 0; i < k - 1; i++) {
         if (k % 2 === 0) {
-            swap(A, i, k - 1);
+            swapMut(A, i, k - 1);
         } else {
-            swap(A, 0, k - 1);
+            swapMut(A, 0, k - 1);
         }
 
         generate(A, perms, k - 1);
@@ -41,19 +41,19 @@ export const nextPermutation = <T>(elems: T[]): boolean => {
 
     const j = findIndexRight(elems, elems_j => elems_i < elems_j);
 
-    swap(elems, i, j);
+    swapMut(elems, i, j);
     reverseRange(elems, i + 1, elems.length - 1);
 
     return true;
 };
 
 export const prevPermutation = <T>(elems: T[]): boolean => {
-    const i =  findIndexRight(elems, (_, i) => elems[i - 1] > elems[i]);
+    const i = findIndexRight(elems, (_, i) => elems[i - 1] > elems[i]);
     if (i === -1) return false;
-    
+
     const j = findIndexRight(elems, (elems_j, j) => j >= i && elems_j < elems[i - 1]);
 
-    swap(elems, i - 1, j);
+    swapMut(elems, i - 1, j);
     reverseRange(elems, i, elems.length - 1);
 
     return true;

@@ -1,20 +1,21 @@
+import { even } from './functions';
 import { foldLeft2, skip } from './iters';
 import { memoize } from './memoize';
 
-function _factorize(n: number): number[] {
+function factorizeAux(n: number): number[] {
     if (n === 2) return [2];
-    if ((n & 1) === 0) return [2, ..._factorize(n / 2)];
+    if (even(n)) return [2, ...factorizeAux(n / 2)];
 
     for (let i = 3; i * i <= n; i += 2) {
         if (n % i === 0) {
-            return [i, ..._factorize(n / i)];
+            return [i, ...factorizeAux(n / i)];
         }
     }
 
     return [n]; // n is prime
 }
 
-export const factorize = memoize(_factorize);
+export const factorize = memoize(factorizeAux);
 
 export function primeFactorsWithExponents(n: number): Array<[number, number]> {
     const factors = factorize(n);
