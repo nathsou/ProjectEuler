@@ -1,4 +1,4 @@
-import { swapRemove } from "./arrays";
+import { Heap } from "./heaps";
 
 export class Graph<Labels = string> {
   private adjacencyLists: Map<Labels, Set<Labels>>;
@@ -42,41 +42,24 @@ export class Graph<Labels = string> {
   }
 }
 
-const min = (vals: number[]) => {
-  let minIndex = 0;
-  let minValue = vals[0];
-
-  for (let i = 1; i < vals.length; i++) {
-    if (vals[i] < minValue) {
-      minValue = vals[i];
-      minIndex = i;
-    }
-  }
-
-  return { value: minValue, index: minIndex };
-}
-
 export const dijkstra = <Labels = string>(g: Graph<Labels>, source: Labels) => {
-  const unvisited = g.getVertices();
+  const unvisited = new Heap<Labels, number>(g.getVertices().map(v => [v, Infinity]), (a, b) => a < b);
   const visited = new Set<Labels>();
-  const distances = new Map<Labels, number>(
-    unvisited.map(v => [v, Infinity])
-  );
+  const distances = new Map<Labels, number>(unvisited.getData());
 
   distances.set(source, 0);
+  unvisited.updatePriority(source, 0);
 
-  while (unvisited.length > 0) {
-    // TODO: use a priority queue
-    const { index: minIndex } = min(unvisited.map(v => distances.get(v)));
-    const u = unvisited[minIndex];
-    swapRemove(unvisited, minIndex);
-    const d = distances.get(u);
+  while (!unvisited.empty()) {
+    const [u, d] = unvisited.removeHighestPriority();
+    if (d === Infinity) break;
 
     for (const v of g.adjacentVertices(u)) {
       if (!visited.has(v)) {
         const newDist = d + g.getCost(u, v);
         if (newDist < distances.get(v)) {
           distances.set(v, newDist);
+          unvisited.updatePriority(v, newDist);
         }
       }
     }

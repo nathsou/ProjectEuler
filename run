@@ -1,0 +1,2 @@
+n=$1
+npx ts-node --transpile-only "PB${n}/pb${n}.ts"

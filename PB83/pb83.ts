@@ -34,7 +34,7 @@ const toGraph = (costs: number[], rows: number, cols: number): Graph => {
   return g;
 };
 
-const pb81 = () => {
+const pb83 = () => {
   const g = toGraph(matrix, rows, cols);
   const start = labelOf(-1, 0);
   g.insertVertex(start);
@@ -44,4 +44,4 @@ const pb81 = () => {
   return dists.get(labelOf(rows - 1, cols - 1));
 };
 
-console.log(pb81());
+console.log(pb83());

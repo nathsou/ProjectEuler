@@ -1,12 +1,13 @@
 import { bigMatrix } from "../PB81/matrices";
 import { dijkstra, Graph } from "../Utils/graphs";
-import { fill, foldLeft2, map, min, range, zip } from "../Utils/iters";
+import { Heap } from "../Utils/heaps";
+import { foldLeft2, map, range } from "../Utils/iters";
 
 const { matrix, rows, cols } = bigMatrix;
 
 const labelOf = (i: number, j: number) => `${i}:${j}`;
 
-const toGraph = (costs: number[], rows: number, cols: number): Graph => {
+const asGraph = (costs: number[], rows: number, cols: number): Graph => {
   const g = new Graph();
 
   for (let i = 0; i < cols; i++) {
@@ -41,22 +42,18 @@ const getColumn = (distances: Map<string, number>, col: number, rows: number): n
   return column;
 };
 
-const hadamardMin = (a: number[], b: number[]): number[] => {
-  return [...map(zip(a, b), ([m, n]) => Math.min(m, n))];
-}
-
-const pb81 = () => {
-  const g = toGraph(matrix, rows, cols);
+const pb82 = () => {
+  const g = asGraph(matrix, rows, cols);
   for (let j = 0; j < rows; j++) {
     const v = labelOf(-1, j);
     g.insertVertex(v);
     g.insertDirectedEdge(v, labelOf(0, j), matrix[j * cols]);
   }
 
-  return min(foldLeft2(range(0, rows - 1), (mins, j) =>
-    hadamardMin(mins, getColumn(dijkstra(g, labelOf(-1, j)), cols - 1, rows)),
-    fill(Infinity, cols)
-  )).value;
+  return foldLeft2(range(0, rows - 1), (min, j) =>
+    Math.min(min, ...getColumn(dijkstra(g, labelOf(-1, j)), cols - 1, rows)),
+    Infinity
+  );
 };
 
-console.log(pb81());
+console.log(pb82());
