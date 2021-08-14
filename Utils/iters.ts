@@ -37,9 +37,18 @@ export function* map<U, V>(
 	}
 }
 
-export function* take<T>(iterable: II<T>, n: number): It<T> {
+export function* flatMap<U, V>(
+	iter: Iterable<U>,
+	fn: (val: U) => Iterable<V>,
+): It<V> {
+	for (const val of iter) {
+		yield* fn(val);
+	}
+}
+
+export function* take<T>(iterable: II<T>, count: number): It<T> {
 	const it = iter(iterable);
-	for (let i = 0; i < n; i++) {
+	for (let i = 0; i < count; i++) {
 		const { value, done } = it.next();
 		if (done) {
 			break;
@@ -215,6 +224,13 @@ export function* zip<A, B>(
 		yield [a.value, b.value];
 	}
 }
+
+export const zipCycle = <A, B>(as: II<A>, bs: II<B>): It<[A, B]> => {
+	const as_ = [...as];
+	const bs_ = [...bs];
+
+	return as_.length < bs_.length ? zip(cycle(as_), bs_) : zip(as_, cycle(bs_));
+};
 
 export function* pairs<U, V>(as: II<U>, bs: II<V>): It<[U, V]> {
 	const bs_ = [...bs];
@@ -517,6 +533,22 @@ export const zeros = (count: number) => fill(0, count);
 export const allEq = <T>(vals: II<T>): boolean => {
 	for (const [p, c] of history(vals, 2)) {
 		if (p !== c) return false;
+	}
+
+	return true;
+};
+
+export function* cons<T>(elem: T, it: II<T>): II<T> {
+	yield elem;
+	yield* it;
+}
+
+export const isAscending = (vals: II<number>): boolean => {
+	let last = -Infinity;
+
+	for (const n of vals) {
+		if (n < last) return false;
+		last = n;
 	}
 
 	return true;

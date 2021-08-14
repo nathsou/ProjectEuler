@@ -1,5 +1,5 @@
-import { isPalindrome as isStringPalindrome } from './arrays';
-import { allEq, foldLeft, history, II, It, map, range, scanLeft } from './iters';
+import { first, isPalindrome as isStringPalindrome, last, uniq } from './arrays';
+import { allEq, cons, filter, flatMap, foldLeft, history, II, It, map, pairs, range, scanLeft, skip } from './iters';
 import { memoize } from './memoize';
 import { primeFactorsWithExponents } from './primeFactors';
 
@@ -57,6 +57,20 @@ export const divisorsCount = (n: number): number => {
 	return primeFactorsWithExponents(n)
 		.reduce((count, [_, power]) => (power + 1) * count, 1);
 };
+
+// decompose(2) -> [[2]]
+// decompose(3) -> [[3]]
+// decompose(4) -> [[4], [2, 2]]
+// decompose(5) -> [[5]]
+// decompose(6) -> [[6], [2, 3]]
+// decompose(8) -> [[8], [2, 4], [2, 2, 2]]
+export const decompose = memoize((n: number): number[][] =>
+	uniq(cons([n], flatMap(skip(smallDivisors(n), 1), a =>
+		map(filter(pairs(decompose(a), decompose(n / a)),
+			([p, q]) => last(p) <= first(q)),
+			([p, q]) => [...p, ...q]
+		)))
+	));
 
 export const intLog = (n: number, base: number): number => {
 	let i = 0;

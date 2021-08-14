@@ -6,6 +6,10 @@ export const last = <T>(vals: T[]): T | undefined => {
     return vals[vals.length - 1];
 };
 
+export const first = <T>(vals: T[]): T | undefined => {
+    return vals[0];
+};
+
 export const isPalindrome = <T>(vals: T[] | string): boolean => {
     let left = 0;
     let right = vals.length - 1;
