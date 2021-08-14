@@ -7,3 +7,7 @@ export const alphabetIndices = (str: string): number[] => {
 export const ascii = (str: string): It<number> => {
     return map(str, char => char.charCodeAt(0));
 };
+
+export const chars = (str: string): string[] => {
+    return str.split('');
+};

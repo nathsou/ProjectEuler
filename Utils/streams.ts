@@ -15,6 +15,12 @@ export async function* words(path: string): AsyncIt<string> {
     }
 }
 
+export async function* lines(path: string): AsyncIt<string> {
+    for await (const str of read(path, 'utf-8')) {
+        yield* str.split('\n');
+    }
+}
+
 export const consume = async <T>(it: AsyncIt<T>): Promise<T[]> => {
     const vals: T[] = [];
     for await (const val of it) {
