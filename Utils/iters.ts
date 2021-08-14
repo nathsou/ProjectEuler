@@ -257,6 +257,26 @@ export function* triplets<T, U, V>(
 	}
 }
 
+export function* quadruplets<T, U, V, W>(
+	as: II<T>,
+	bs: II<U>,
+	cs: II<V>,
+	ds: II<W>,
+): It<[T, U, V, W]> {
+	const bs_ = [...bs];
+	const cs_ = [...cs];
+	const ds_ = [...ds];
+	for (const a of as) {
+		for (const b of bs_) {
+			for (const c of cs_) {
+				for (const d of ds_) {
+					yield [a, b, c, d];
+				}
+			}
+		}
+	}
+}
+
 export function digits(n: number | bigint): number[] {
 	return `${n}`.split("").map((n) => parseInt(n));
 }
