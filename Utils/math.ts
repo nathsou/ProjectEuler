@@ -2,6 +2,7 @@ import { first, isPalindrome as isStringPalindrome, last, uniq } from './arrays'
 import { allEq, cons, filter, flatMap, foldLeft, history, II, It, map, pairs, range, scanLeft, skip } from './iters';
 import { memoize } from './memoize';
 import { primeFactorsWithExponents } from './primeFactors';
+import { chars } from './strings';
 
 export const sum = (vals: II<number>): number => {
 	let s = 0;

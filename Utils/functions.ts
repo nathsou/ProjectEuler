@@ -20,6 +20,12 @@ export const lss = (a: number) => (b: number) => b < a;
 export const leq = (a: number) => (b: number) => b <= a;
 export const gtr = (a: number) => (b: number) => b > a;
 export const geq = (a: number) => (b: number) => b >= a;
+export const plus = (a: number) => (b: number) => a + b;
+export const minus = (a: number) => (b: number) => a - b;
+export const times = (a: number) => (b: number) => a * b;
+export const div = (a: number) => (b: number) => a / b;
+export const pow = (a: number) => (b: number) => a ** b;
+export const square = (n: number) => n * n;
 
 export const occurences = <T>(vals: II<T>): Map<T, number[]> => {
     const occs = new Map<T, number[]>();
