@@ -1,15 +1,22 @@
 import { square } from "../Utils/functions";
-import { count, digits, range } from "../Utils/iters";
-import { sum } from "../Utils/math";
-import { memoize } from "../Utils/memoize";
+import { count, range } from "../Utils/iters";
 
-const digitsSquareSum = (n: number) => sum(digits(n).map(square));
+const digitsSquareSum = (n: number) => {
+  let sum = 0;
 
-const reaches89 = memoize((n: number): boolean => {
+  while (n > 0) {
+    sum = sum + square(n % 10);
+    n = Math.floor(n / 10);
+  }
+
+  return sum;
+};
+
+const reaches89 = (n: number): boolean => {
   if (n === 1) return false;
   if (n === 89) return true;
   return reaches89(digitsSquareSum(n));
-});
+};
 
 const pb92 = (N = 10 ** 7) => count(range(1, N), reaches89);
 

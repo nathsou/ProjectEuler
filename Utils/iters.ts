@@ -277,8 +277,11 @@ export function* quadruplets<T, U, V, W>(
 	}
 }
 
-export function digits(n: number | bigint): number[] {
-	return `${n}`.split("").map((n) => parseInt(n));
+export function* digits(n: number): It<number> {
+	while (n > 0) {
+		yield n % 10;
+		n = Math.floor(n / 10);
+	}
 }
 
 export const digitsCount = (n: number | bigint): number => {
@@ -353,6 +356,22 @@ export function count<T>(
 	for (const a of as) {
 		if (pred(a)) {
 			count++;
+		}
+	}
+
+	return count;
+}
+
+export function countWhile<T>(
+	as: II<T>,
+	pred: (a: T) => boolean,
+): number {
+	let count = 0;
+	for (const a of as) {
+		if (pred(a)) {
+			count++;
+		} else {
+			break;
 		}
 	}
 
