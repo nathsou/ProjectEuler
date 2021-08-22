@@ -632,3 +632,9 @@ export const last = <T>(it: II<T>): T => {
 
 	return last;
 };
+
+export const first = <T>(it: II<T>): T => {
+	for (const elem of it) {
+		return elem;
+	}
+};
