@@ -13,12 +13,8 @@ function* digits(): It<[number, number, number, number]> {
   }
 }
 
-const contains = (n: number, nums: number[]) => {
-  return nums.some(m => Math.abs(m - n) < 0.0001);
-};
-
 const consecutiveIntsLen = (nums: number[]): number => {
-  return countWhile(range(1, nums.length), n => contains(n, nums));
+  return countWhile(range(1, nums.length), n => nums.includes(n));
 };
 
 const pb93 = () => {

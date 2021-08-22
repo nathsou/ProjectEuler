@@ -1,8 +1,7 @@
 import { first, isPalindrome as isStringPalindrome, last, uniq } from './arrays';
-import { allEq, cons, filter, flatMap, foldLeft, history, II, It, map, pairs, range, scanLeft, skip } from './iters';
+import { allEq, cons, filter, flatMap, foldLeft, history, II, It, map, pairs, range, scanLeft, skip, takeWhile } from './iters';
 import { memoize } from './memoize';
 import { primeFactorsWithExponents } from './primeFactors';
-import { chars } from './strings';
 
 export const sum = (vals: II<number>): number => {
 	let s = 0;
@@ -166,6 +165,11 @@ export const isTriangular = (n: number): boolean => {
 	return isInt((-(1 / 2) + Math.sqrt(1 / 4 + 2 * n)));
 };
 
+export const createSquareChecker = (max: bigint) => {
+	const squares = new Set(takeWhile(map(range(1n, max), n => n * n), n => n < max));
+	return (n: bigint) => squares.has(n);
+};
+
 export const isSquare = (n: number): boolean => {
 	return isInt(n) && isInt(Math.sqrt(n));
 };
@@ -193,23 +197,6 @@ export const isArithmeticSequence = (seq: number[]): boolean => {
 
 export const nats = (includeZero = false) => range(includeZero ? 0 : 1, Infinity);
 
-export const modPow = (a: number, b: number, mod: number): number => {
-	if (b === 0) return 1;
-	if (b === 1) return a % mod;
-
-	let n = b;
-	let p = 1;
-	let res = 1;
-
-	while (n !== 0) {
-		n = n >> 1;
-		res *= (a ** p) % mod;
-		p *= 2;
-	}
-
-	return res % mod;
-};
-
 export const dichotomy = (
 	lower: number,
 	upper: number,
@@ -230,4 +217,34 @@ export const dichotomy = (
 	const [newLower, newUpper] = x < 0 ? [mid, upper] : [lower, mid];
 
 	return dichotomy(newLower, newUpper, f, itersLeft - 1, computeMiddle);
+};
+
+// https://github.com/Aisse-258/bigint-isqrt/blob/master/main.js
+export const sqrtB = (n: bigint): bigint => {
+	if (n < 2n) return n;
+
+	if (n < 16n) {
+		return BigInt(Math.floor(Math.sqrt(Number(n))));
+	}
+
+	let x1: bigint;
+
+	if (n < (1n << 52n)) {
+		x1 = BigInt(Math.floor(Math.sqrt(Number(n)))) - 3n;
+	} else {
+		x1 = (1n << 52n) - 2n;
+	}
+
+	let x0 = -1n;
+	while ((x0 !== x1 && x0 !== (x1 - 1n))) {
+		x0 = x1;
+		x1 = ((n / x0) + x0) >> 1n;
+	}
+
+	return x0;
+};
+
+export const isSquareB = (n: bigint): boolean => {
+	const s = sqrtB(n);
+	return s * s === n;
 };

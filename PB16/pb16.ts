@@ -1,7 +1,6 @@
-import { sum, modPow } from "../Utils/math";
+import { digitsB } from "../Utils/iters";
+import { sum } from "../Utils/math";
 
-const res = sum(`${2n ** 1000n}`.split('').map(n => parseInt(n)));
+const pb16 = () => sum(digitsB(2n ** 1000n));
 
-console.log(modPow(2, 1000, 10));
-
-// console.log(res);
+console.log(pb16());

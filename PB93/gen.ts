@@ -42,7 +42,7 @@ const showPerm = (perm: string[]): string => {
     }
   }
 
-  return first(stack);
+  return first(stack).slice(1, -1);
 };
 
 const digitToSymb = {
@@ -52,7 +52,10 @@ const digitToSymb = {
   '3': '/'
 };
 
-const operators = map(range(0, parseInt('333', 4)), n => n.toString(4).padStart(3, '0').split('').map(op => digitToSymb[op]));
+const operators = uniq(map(
+  range(0, parseInt('333', 4)),
+  n => n.toString(4).padStart(3, '0').split('').sort().map(op => digitToSymb[op])
+));
 
 const choices = 'export const expressions: ((a: number, b: number, c: number, d: number) => number)[] = [\n' + uniq(map(
   filter(flatMap(operators, ops => permutations(['a', 'b', 'c', 'd', ...ops])), isValid),

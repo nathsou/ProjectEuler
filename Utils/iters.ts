@@ -284,6 +284,13 @@ export function* digits(n: number): It<number> {
 	}
 }
 
+export function* digitsB(n: bigint): It<number> {
+	while (n > 0n) {
+		yield Number(n % 10n);
+		n = n / 10n;
+	}
+}
+
 export const digitsCount = (n: number | bigint): number => {
 	return `${n}`.length;
 };
@@ -591,4 +598,14 @@ export const isAscending = (vals: II<number>): boolean => {
 	}
 
 	return true;
+};
+
+export const last = <T>(it: II<T>): T => {
+	let last = null;
+
+	for (const elem of it) {
+		last = elem;
+	}
+
+	return last;
 };
