@@ -53,6 +53,10 @@ export const divisors = (n: number): number[] => {
 	return divs;
 };
 
+export const properDivisorsSum = (n: number): number => {
+	return sum(divisors(n)) - n;
+};
+
 export const divisorsCount = (n: number): number => {
 	return primeFactorsWithExponents(n)
 		.reduce((count, [_, power]) => (power + 1) * count, 1);
@@ -156,8 +160,8 @@ export const cubes = (): It<number> => {
 	return scanLeft(range(1, Infinity), (c, n) => c + 3 * n * (n + 1) + 1, 1);
 };
 
-export const isInt = (x: number): boolean => {
-	return x - Math.floor(x) < Number.EPSILON;
+export const isInt = (x: number, eps = Number.EPSILON): boolean => {
+	return Math.abs(x - Math.floor(x)) < eps;
 };
 
 // t(n) = (n (n + 1)) / 2 = (n^2 + n) / 2

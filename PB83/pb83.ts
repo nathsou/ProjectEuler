@@ -1,6 +1,6 @@
 import { bigMatrix } from "../PB81/matrices";
 import { dijkstra, Graph } from "../Utils/graphs";
-import { map, pairs, range } from "../Utils/iters";
+import { pairs, range } from "../Utils/iters";
 
 const { matrix, rows, cols } = bigMatrix;
 

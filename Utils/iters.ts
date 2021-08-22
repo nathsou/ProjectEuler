@@ -130,13 +130,36 @@ export const len = <T>(it: II<T>): number => {
 export const findIndexRight = <T>(
 	elems: T[],
 	pred: (val: T, index: number) => boolean,
-) => {
+): number => {
 	for (let i = elems.length - 1; i >= 0; i--) {
 		if (pred(elems[i], i)) return i;
 	}
 
 	return -1;
 };
+
+export const findIndex = <T>(
+	elems: II<T>,
+	pred: (val: T, index: number) => boolean,
+): number => {
+	for (const [elem, i] of indexed(elems)) {
+		if (pred(elem, i)) return i;
+	}
+
+	return -1;
+};
+
+export function* slice<T>(
+	elems: II<T>,
+	start: number,
+	end = Infinity,
+): II<T> {
+	for (const [elem, i] of indexed(elems)) {
+		if (i >= start && i <= end) {
+			yield elem;
+		}
+	}
+}
 
 export const reverseRange = <T>(
 	elems: T[],
