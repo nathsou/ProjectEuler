@@ -1,10 +1,9 @@
 import { consume, lines } from "../Utils/streams";
 
-// a1 ** b1 > a2 ** b2 if log_c(a1 ** b1) > log_c(a2 ** b2) where c = max(a1, b2)
-// => b1 * log_c(a1) > b2 * log_c(a2)
+// a1 ** b1 > a2 ** b2 if log(a1 ** b1) > log(a2 ** b2)
+// => b1 * log(a1) > b2 * log(a2)
 const powerGreater = ([a1, b1]: [number, number], [a2, b2]: [number, number]): boolean => {
-  const c = Math.log(Math.max(a1, a2));
-  return b1 * Math.log(a1) / c > b2 * Math.log(a2) / c;
+  return b1 * Math.log(a1) > b2 * Math.log(a2);
 };
 
 const pb99 = async () => {
