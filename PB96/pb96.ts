@@ -90,7 +90,7 @@ const isGridSolved = (grid: Grid): boolean => {
 
 const isGridUnsolvable = (grid: Grid): boolean => {
   return grid.some(row => row.some(set => set.size === 0));
-}
+};
 
 const solvedCells = (grid: Grid): Array<[number, number]> => {
   const stack: Array<[number, number]> = [];
@@ -113,16 +113,15 @@ const deduce = (grid: Grid, initialSolvedCells: Array<[number, number]>): void =
   while (stack.length > 0) {
     const [x, y] = stack.pop();
     if (grid[y][x].size !== 0) {
-      const [digit] = [...grid[y][x]];
-      stack.push(...markCell(grid, x, y, digit));
+      const digit = first(grid[y][x]);
+      const newlyDeducedCells = markCell(grid, x, y, digit);
+      stack.push(...newlyDeducedCells);
     }
   }
 };
 
-const solve = (grid: Grid, initialSolvedCells: Array<[number, number]>): number[][] | null => {
+const solve = (grid: Grid, initialSolvedCells = solvedCells(grid)): number[][] | null => {
   deduce(grid, initialSolvedCells);
-
-  // console.log(grid.map(row => row.map(set => `${[...set].join(' ')}`).join('|')).join('\n') + '\n');
 
   if (isGridUnsolvable(grid)) {
     return null;
@@ -147,7 +146,7 @@ const pb96 = async () => {
     9
   )];
 
-  const solutions = grids.map(sets).map(g => solve(g, solvedCells(g)));
+  const solutions = grids.map(grid => solve(sets(grid)));
 
   return sum(map(solutions, ([[a, b, c]]) => a * 100 + b * 10 + c));
 };
