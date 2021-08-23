@@ -1,8 +1,6 @@
 
 // (a ** b) % m
 export const modPow = (b: number, e: number, m: number): number => {
-  if (e === 0) return 1;
-  if (e === 1) return b % m;
   if (m === 1) return 0;
 
   let res = 1;
