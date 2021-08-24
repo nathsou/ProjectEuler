@@ -207,7 +207,7 @@ export const dichotomy = (
 	f: (x: number) => number,
 	itersLeft = 1000,
 	computeMiddle: (lower: number, upper: number) => number = (a, b) => (a + b) / 2
-) => {
+): number => {
 	const mid = computeMiddle(lower, upper);
 
 	if (itersLeft === 0 || mid === lower || mid === upper) {
