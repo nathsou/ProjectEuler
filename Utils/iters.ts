@@ -304,13 +304,6 @@ export const digits = (n: number | bigint): number[] => {
 	return `${n}`.split('').map(Number);
 };
 
-export function* digitsBRtl(n: bigint): It<number> {
-	while (n > 0n) {
-		yield Number(n % 10n);
-		n = n / 10n;
-	}
-}
-
 export const digitsCount = (n: number | bigint): number => {
 	return `${n}`.length;
 };
