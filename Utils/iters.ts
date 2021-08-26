@@ -300,14 +300,11 @@ export function* quadruplets<T, U, V, W>(
 	}
 }
 
-export function* digits(n: number): It<number> {
-	while (n > 0) {
-		yield n % 10;
-		n = Math.floor(n / 10);
-	}
-}
+export const digits = (n: number | bigint): number[] => {
+	return `${n}`.split('').map(Number);
+};
 
-export function* digitsB(n: bigint): It<number> {
+export function* digitsBRtl(n: bigint): It<number> {
 	while (n > 0n) {
 		yield Number(n % 10n);
 		n = n / 10n;
