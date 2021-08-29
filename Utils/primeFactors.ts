@@ -3,12 +3,12 @@ import { foldLeft2, skip } from './iters';
 import { memoize } from './memoize';
 
 export const factorize = memoize((n: number): number[] => {
-    if (n === 2) return [2];
+    if (n === 1) return [];
     if (even(n)) return [2, ...factorize(n / 2)];
 
     for (let i = 3; i * i <= n; i += 2) {
         if (n % i === 0) {
-            return [i, ...factorize(n / i)];
+            return [...factorize(i), ...factorize(n / i)];
         }
     }
 
